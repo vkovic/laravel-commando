@@ -1,0 +1,39 @@
+{
+  "name": "vkovic/laravel-commandos",
+  "description": "Make your own custom cast type for Laravel model attributes",
+  "keywords": [
+    "laravel",
+    "console",
+    "commands"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Vladimir Ković",
+      "email": "vlada.kovic@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Vkovic\\LaravelCustomCasts\\": "src/package"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Vkovic\\LaravelCustomCasts\\Test\\": "tests"
+    }
+  },
+  "require": {
+    "php": "^7.1",
+    "laravel/framework": "5.5.*|5.6.*|5.7.*|5.8.*"
+  },
+  "require-dev": {
+    "orchestra/testbench": "3.5.*|3.6.*|3.7.*|3.8.*",
+    "orchestra/database": "3.5.*|3.6.*|3.7.*|3.8.*",
+    "phpunit/phpunit": "^6.3|^7.0"
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  },
+  "minimum-stability": "dev"
+}
