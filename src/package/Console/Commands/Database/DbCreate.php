@@ -4,6 +4,7 @@ namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class DbCreate extends Command
@@ -32,23 +33,6 @@ class DbCreate extends Command
      */
     protected $description = 'Create db defined in .env file or with custom name if argument passed';
 
-//    public function XXXhandle()
-//    {
-//        $name = $this->ask('What is your name?');
-//
-//        $language = $this->choice('Which language do you program in?', [
-//            'PHP',
-//            'Ruby',
-//            'Python',
-//        ]);
-//
-//        $this->line('Your name is ' . $name . ' and you program in ' . $language . '.');
-//
-//        return 0;
-//
-//        //throw new InvalidOptionException('Wrong something');
-//    }
-
     /**
      * Execute the console command.
      *
@@ -56,77 +40,30 @@ class DbCreate extends Command
      */
     public function handle()
     {
-        $this->argument('database');
+        // Get database name either from passed argument (if any)
+        // or from default database configuration
+        $database = $this->argument('database') ?: (function () {
+            $default = config('database.default');
 
-        return;
-
-//        throw new \Exception('test');
-//
-//        return $this->error('banana');
-//
-//        dd($this->argument('database'));
-
-        //$this->options()
-//        if (!$this->confirmToProceed()) {
-//            return 1;
-//        }
-
-//        $defaultDbConn = config('database.default');
-//        $dbName = config("database.connections.$defaultDbConn.database");
-//
-//        $this->db = $this->argument('database') ?? $dbName;
-
-        //dd($this->db);
-        //dd(DB::statement('SHOW DATABASES LIKE "test_test"')->get());
+            return config("database.connections.$default.database");
+        })();
 
         try {
-            DB::statement('CREATE DATABASE test_test');
+            Artisan::call('db:exist', ['database' => $database]);
         } catch (\Exception $e) {
-            if ($e->getCode() === "HY000") {
-
-
-            }
+            dd($e->getMessage());
         }
 
-        dd('test');
-        //dd(DB::statement('SHOW DATABASES'));
+        // Database "laravel_commandos" exist
+        $message = trim(\Artisan::output());
 
-        $created = false;
+        if (strpos($message, 'not exist') !== false) {
+            DB::statement("CREATE DATABASE $database");
 
-        dd($pdo = $this->getPDOConnection(env('DB_HOST'), env('DB_PORT'), env('DB_USERNAME'), env('DB_PASSWORD')));
-
-        try {
-            $pdo = $this->getPDOConnection(env('DB_HOST'), env('DB_PORT'), env('DB_USERNAME'), env('DB_PASSWORD'));
-
-            // Database will be created if not exists and $created will be true.
-            // If db exists $created will be false.
-            $this->comment(PHP_EOL . "Creating databse {$this->db}");
-            $created = $pdo->exec("CREATE DATABASE $this->db");
-        } catch (\Exception $e) {
-            $this->error(PHP_EOL . sprintf('Failed to create %s database, %s', $this->db, $e->getMessage()) . PHP_EOL);
-        }
-
-        if ($created) {
-            $this->info(PHP_EOL . sprintf('Database "%s" created successfully', $this->db) . PHP_EOL);
-            return 0;
+            $this->line('Database "' . $database . '" successfully created');
         } else {
-            $this->error(PHP_EOL . sprintf('Database "%s" already exists', $this->db) . PHP_EOL);
-            return 1;
-        }
-    }
 
-    /**
-     * Establish PDO connection
-     *
-     * @param  string  $host
-     * @param  integer $port
-     * @param  string  $username
-     * @param  string  $password
-     *
-     * @return PDO
-     */
-    protected function getPDOConnection($host, $port, $username, $password)
-    {
-        return new PDO(sprintf('mysql:host=%s;port=%d;', $host, $port), $username, $password);
+            $this->line($message);
+        }
     }
 }
