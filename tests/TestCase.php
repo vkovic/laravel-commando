@@ -3,13 +3,29 @@
 namespace Vkovic\LaravelCommandos\Test;
 
 use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Testing\PendingCommand;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Vkovic\LaravelCommandos\Providers\LaravelCommandosServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
+    /**
+     * @var BufferedOutput
+     */
+    private $outputBuffer;
+
+    /**
+     * @var array
+     */
+    private $output = [];
+
+    /**
+     * @var int
+     */
+    private $exitCode = -1;
+
     /**
      * Setup the test environment.
      *
@@ -21,12 +37,7 @@ class TestCase extends OrchestraTestCase
     {
         parent::setUp();
 
-        // This line is introduced to disable mocking object
-        // (using `$this->artisan->{this_will_be_mocked_object}`)
-        // so we can continue to use `Artisan::call` or `this->artisan`
-        // and to get output of the command.
-        // See also `artisanTest` method below.
-        $this->withoutMockingConsoleOutput();
+        $this->outputBuffer = new BufferedOutput;
     }
 
     /**
@@ -44,28 +55,76 @@ class TestCase extends OrchestraTestCase
     }
 
     /**
-     * Call artisan command in tests fluently with `expects` and `assert`
-     * methods (on mock object).
-     *
-     * See also `setUp` method above
-     *
-     * @param  string $command
-     * @param  array  $parameters
-     *
-     * @return \Illuminate\Foundation\Testing\PendingCommand|int
+     * @param \Illuminate\Foundation\Application $app
      */
-    protected function artisanTest($command, $parameters = [])
+    protected function getEnvironmentSetUp($app)
     {
-        $this->beforeApplicationDestroyed(function () {
-            if (count($this->expectedQuestions)) {
-                $this->fail('Question "' . Arr::first($this->expectedQuestions)[0] . '" was not asked.');
-            }
+        $this->setUpDatabase();
+    }
 
-            if (count($this->expectedOutput)) {
-                $this->fail('Output "' . Arr::first($this->expectedOutput) . '" was not printed.');
-            }
+    /**
+     * Setup default database used for testing
+     */
+    protected function setUpDatabase()
+    {
+        $this->switchDefaultDb(null, function ($defaultDb) {
+            DB::statement("CREATE DATABASE IF NOT EXISTS $defaultDb");
         });
+//        // Set database name to `null`
+//        // so we can create db without error
+//        // and than return it to normal
+//        $database = config()->get('database.connections.mysql.database');
+//        config()->set('database.connections.mysql.database', null);
+//
+//        DB::statement("CREATE DATABASE IF NOT EXISTS $database");
+//
+//        // Reset database name
+//        config()->set('database.connections.mysql.database', $database);
+    }
 
-        return new PendingCommand($this, $this->app, $command, $parameters);
+    public function artisan($command, $parameters = [])
+    {
+        $this->exitCode = (int) Artisan::call($command, $parameters, $this->outputBuffer);
+
+        $output = explode("\n", $this->outputBuffer->fetch());
+        array_pop($output);
+        $this->output = $output;
+
+        return $this;
+    }
+
+    protected function expectsOutput($expected)
+    {
+        $this->assertContains($expected, $this->output);
+
+        return $this;
+    }
+
+    protected function assertExitCode($expected)
+    {
+        $this->assertEquals($expected, $this->exitCode);
+    }
+
+    /**
+     * 1) Switch default db to new name
+     * 2) Run callback
+     * 4) Switch back to old name
+     *
+     * @param $tempDbName
+     * @param $callback
+     *
+     * @throws \Exception
+     */
+    protected function switchDefaultDb($tempDbName, $callback)
+    {
+        // Switch default db to new name
+        $defaultDb = config()->get('database.connections.mysql.database');
+        config()->set('database.connections.mysql.database', $tempDbName);
+
+        // Run callback
+        $callback($defaultDb);
+
+        // Switch back to old name
+        config()->set('database.connections.mysql.database', $defaultDb);
     }
 }

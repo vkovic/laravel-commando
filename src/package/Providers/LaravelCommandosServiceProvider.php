@@ -2,9 +2,9 @@
 
 namespace Vkovic\LaravelCommandos\Providers;
 
-use App\Console\Commands\DbDrop;
 use Illuminate\Support\ServiceProvider;
 use Vkovic\LaravelCommandos\Console\Commands\Database\DbCreate;
+use Vkovic\LaravelCommandos\Console\Commands\Database\DbDrop;
 use Vkovic\LaravelCommandos\Console\Commands\Database\DbExist;
 
 class LaravelCommandosServiceProvider extends ServiceProvider
@@ -30,7 +30,7 @@ class LaravelCommandosServiceProvider extends ServiceProvider
             // Database related commands
             DbCreate::class,
             DbExist::class,
-            //DbDrop::class,
+            DbDrop::class,
             // Other commands
         ]);
     }

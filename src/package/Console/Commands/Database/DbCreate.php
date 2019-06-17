@@ -3,14 +3,11 @@
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
 use Illuminate\Console\Command;
-use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class DbCreate extends Command
 {
-    use ConfirmableTrait;
-
     /**
      * Current database name (from env)
      *
@@ -48,22 +45,15 @@ class DbCreate extends Command
             return config("database.connections.$default.database");
         })();
 
-        try {
-            Artisan::call('db:exist', ['database' => $database]);
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
-
-        // Database "laravel_commandos" exist
-        $message = trim(\Artisan::output());
+        Artisan::call('db:exist', ['database' => $database]);
+        $message = trim(Artisan::output());
 
         if (strpos($message, 'not exist') !== false) {
             DB::statement("CREATE DATABASE $database");
 
             $this->line('Database "' . $database . '" successfully created');
         } else {
-
-            $this->line($message);
+            $this->line('Can not create database "' . $database . '". Database already exists');
         }
     }
 }

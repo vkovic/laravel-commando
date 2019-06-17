@@ -13,7 +13,7 @@ class DbExistCommandTest extends TestCase
     {
         $dbName = config()->get('database.connections.mysql.database');
 
-        $this->artisanTest('db:exist', ['database' => $dbName])
+        $this->artisan('db:exist', ['database' => $dbName])
             ->expectsOutput('Database "' . $dbName . '" exist')
             ->assertExitCode(0);
     }
@@ -23,10 +23,10 @@ class DbExistCommandTest extends TestCase
      */
     public function it_can_check_db_exist_when_argument_omitted()
     {
-        $dbName = config()->get('database.connections.mysql.database');
+        $database = config()->get('database.connections.mysql.database');
 
-        $this->artisanTest('db:exist')
-            ->expectsOutput('Database "' . $dbName . '" exist')
+        $this->artisan('db:exist')
+            ->expectsOutput('Database "' . $database . '" exist')
             ->assertExitCode(0);
     }
 
@@ -35,10 +35,10 @@ class DbExistCommandTest extends TestCase
      */
     public function it_can_check_db_not_exist_when_argument_passed()
     {
-        $dbName = 'non_existing_db';
+        $database = 'non_existing_db';
 
-        $this->artisanTest('db:exist', ['database' => $dbName])
-            ->expectsOutput('Database "' . $dbName . '" does not exist')
+        $this->artisan('db:exist', ['database' => $database])
+            ->expectsOutput('Database "' . $database . '" does not exist')
             ->assertExitCode(0);
     }
 
@@ -47,11 +47,11 @@ class DbExistCommandTest extends TestCase
      */
     public function it_can_check_db_not_exist_when_argument_omitted()
     {
-        $dbName = 'non_existing_db_x';
-        config()->set('database.connections.mysql.database', $dbName);
+        $database = 'non_existing_db';
+        config()->set('database.connections.mysql.database', $database);
 
-        $this->artisanTest('db:exist')
-            ->expectsOutput('Database "' . $dbName . '" does not exist')
+        $this->artisan('db:exist')
+            ->expectsOutput('Database "' . $database . '" does not exist')
             ->assertExitCode(0);
     }
 }

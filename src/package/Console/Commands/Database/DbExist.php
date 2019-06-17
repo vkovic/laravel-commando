@@ -3,14 +3,11 @@
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
 use Illuminate\Console\Command;
-use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
 class DbExist extends Command
 {
-    use ConfirmableTrait;
-
     /**
      * The name and signature of the console command.
      *
@@ -41,11 +38,13 @@ class DbExist extends Command
             return config("database.connections.$default.database");
         })();
 
-        $query = "SELECT schema_name FROM information_schema.schemata WHERE schema_name = ?";
+        $query = "SELECT schema_name FROM information_schema.schemata WHERE schema_name = :db";
 
         try {
-            $result = DB::select($query, [$database]);
+            $result = DB::select($query, ['db' => $database]);
         } catch (QueryException $e) {
+            // DB facade is trying to use default database from env,
+            // so if if it does not exist it'll throw error here
             if (strpos($e->getMessage(), '[1049]') !== false) {
                 return $this->line('Database "' . $database . '" does not exist');
             }
