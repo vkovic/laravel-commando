@@ -1,6 +1,6 @@
 {
   "name": "vkovic/laravel-commandos",
-  "description": "Make your own custom cast type for Laravel model attributes",
+  "description": "Collection of handy Laravel console commands that almost every project needs",
   "keywords": [
     "laravel",
     "console",
@@ -15,12 +15,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "Vkovic\\LaravelCustomCasts\\": "src/package"
+      "Vkovic\\LaravelCommandos\\": "src/package"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Vkovic\\LaravelCustomCasts\\Test\\": "tests"
+      "Vkovic\\LaravelCommandos\\Test\\": "tests"
     }
   },
   "require": {

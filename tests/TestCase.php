@@ -1,10 +1,11 @@
 <?php
 
-namespace Vkovic\LaravelCustomCasts\Test;
+namespace Vkovic\LaravelCommandos\Test;
 
 use Illuminate\Foundation\Application;
 use Orchestra\Database\ConsoleServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Vkovic\LaravelCommandos\Providers\LaravelCommandosServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
@@ -19,7 +20,7 @@ class TestCase extends OrchestraTestCase
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        //$this->loadMigrationsFrom(__DIR__ . '/database/migrations');
     }
 
     /**
@@ -32,7 +33,10 @@ class TestCase extends OrchestraTestCase
      */
     protected function getPackageProviders($app)
     {
-        return ConsoleServiceProvider::class;
+
+        //return ConsoleServiceProvider::class;
+
+        return LaravelCommandosServiceProvider::class;
     }
 
     /**
@@ -44,10 +48,10 @@ class TestCase extends OrchestraTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
+        $app['config']->set('database.default', 'sqlite');
+        $app['config']->set('database.connections.sqlite', [
             'driver' => 'sqlite',
-            'database' => ':memory:',
+            'database' => 'laravel_commandos',
         ]);
     }
 }
