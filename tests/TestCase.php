@@ -3,7 +3,6 @@
 namespace Vkovic\LaravelCommandos\Test;
 
 use Illuminate\Foundation\Application;
-use Orchestra\Database\ConsoleServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Vkovic\LaravelCommandos\Providers\LaravelCommandosServiceProvider;
 
@@ -33,25 +32,7 @@ class TestCase extends OrchestraTestCase
      */
     protected function getPackageProviders($app)
     {
-
         //return ConsoleServiceProvider::class;
-
         return LaravelCommandosServiceProvider::class;
-    }
-
-    /**
-     * Define environment setup
-     *
-     * @param Application $app
-     *
-     * @return void
-     */
-    protected function getEnvironmentSetUp($app)
-    {
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
-            'database' => 'laravel_commandos',
-        ]);
     }
 }
