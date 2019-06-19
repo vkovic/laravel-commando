@@ -3,8 +3,7 @@
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
 use Illuminate\Console\Command;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\DB;
+use Vkovic\LaravelCommandos\DatabaseCommands\MySql;
 
 class DbExist extends Command
 {
@@ -25,8 +24,6 @@ class DbExist extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
@@ -38,24 +35,13 @@ class DbExist extends Command
             return config("database.connections.$default.database");
         })();
 
-        $query = "SELECT schema_name FROM information_schema.schemata WHERE schema_name = :db";
+        $config = config()->get('database.connections.mysql');
+        $db = new MySql($config);
 
-        try {
-            $result = DB::select($query, ['db' => $database]);
-        } catch (QueryException $e) {
-            // DB facade is trying to use default database from env,
-            // so if if it does not exist it'll throw error here
-            if (strpos($e->getMessage(), '[1049]') !== false) {
-                return $this->line('Database "' . $database . '" does not exist');
-            }
-
-            throw $e;
-        }
-
-        if (empty($result)) {
-            $this->line('Database "' . $database . '" does not exist');
-        } else {
+        if ($db->databaseExists($database)) {
             $this->line('Database "' . $database . '" exist');
+        } else {
+            $this->line('Database "' . $database . '" does not exist');
         }
     }
 }
