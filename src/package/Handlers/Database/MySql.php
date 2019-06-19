@@ -103,12 +103,15 @@
 //
 //     ],
 
-namespace Vkovic\LaravelCommandos\DatabaseCommands;
+namespace Vkovic\LaravelCommandos\Handlers\Database;
 
-use Illuminate\Support\Facades\DB;
 use PDO;
+use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
+use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\DbCreateException;
+use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\DbDropException;
+use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\DbExistCheckException;
 
-class MySql
+class MySql extends AbstractDbException
 {
     /**
      * @var PDO
@@ -122,33 +125,48 @@ class MySql
         $this->pdo = $this->getPdo($config['host'], $config['port'], $config['username'], $config['password']);
     }
 
-    public function databaseExists($database)
+    public function databaseExists($database): bool
     {
-        $stmt = $this->pdo->query("SELECT schema_name FROM information_schema.schemata WHERE schema_name = '$database'");
-
-        if ($this->pdo->errorCode() != "00000") {
-            throw new \Exception($this->pdo->errorInfo()[2]);
+        try {
+            $stmt = $this->pdo->query("SELECT schema_name FROM information_schema.schemata WHERE schema_name = '$database'");
+        } catch (\Exception $e) {
+            throw new DbExistCheckException($e->getMessage());
         }
 
         return $stmt->fetch() !== false;
     }
 
-    public static function createDatabase($database)
+    public function createDatabase($database): void
     {
-        DB::statement("CREATE DATABASE $database");
+        try {
+            $stmt = $this->pdo->query("CREATE DATABASE '$database'");
+        } catch (\Exception $e) {
+            throw new DbCreateException($e->getMessage());
+        }
 
-        return true;
+        $stmt->execute();
     }
 
-    public static function dropDatabase($database)
+    public function dropDatabase($database): void
     {
-        DB::statement("DROP DATABASE $database");
+        try {
+            $stmt = $this->pdo->query("DROP DATABASE '$database'");
+        } catch (\Exception $e) {
+            throw new DbDropException($e->getMessage());
+        }
 
-        return true;
+        $stmt->execute();
     }
 
-    protected function getPdo($host, $port, $username, $password)
+    protected function getPdo($host, $port, $username, $password): PDO
     {
-        return $this->pdo ?: new PDO(sprintf('mysql:host=%s;port=%d;', $host, $port), $username, $password);
+        if ($this->pdo === null) {
+            $pdo = new PDO(sprintf('mysql:host=%s;port=%d;', $host, $port), $username, $password);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $this->pdo = $pdo;
+        }
+
+        return $this->pdo;
     }
 }

@@ -3,8 +3,8 @@
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
+use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
+use Vkovic\LaravelCommandos\Handlers\Database\MySql;
 
 class DbCreate extends Command
 {
@@ -45,15 +45,17 @@ class DbCreate extends Command
             return config("database.connections.$default.database");
         })();
 
-        Artisan::call('db:exist', ['database' => $database]);
-        $message = trim(Artisan::output());
+        $config = config()->get('database.connections.mysql');
+        $dbHandler = new MySql($config);
 
-        if (strpos($message, 'not exist') !== false) {
-            DB::statement("CREATE DATABASE $database");
+        $this->info("Creating database: '$database'");
 
-            $this->line('Database "' . $database . '" successfully created');
-        } else {
-            $this->line('Can not create database "' . $database . '". Database already exists');
+        try {
+            $dbHandler->createDatabase($database);
+        } catch (AbstractDbException $e) {
+            return $this->error($e->getMessage());
         }
+
+        $this->info('Done');
     }
 }

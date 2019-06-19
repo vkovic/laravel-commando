@@ -8,7 +8,7 @@ return [
     // `Vkovic\LaravelCommandos\DatabaseCommands\DatabaseCommandsInterface`
     'database_commands' => [
         'sqlite' => null,
-        'mysql' => \Vkovic\LaravelCommandos\DatabaseCommands\MySql::class,
+        'mysql' => \Vkovic\LaravelCommandos\Handlers\Database\MySql::class,
         'pgsql' => null,
         'sqlsrv' => null,
     ]

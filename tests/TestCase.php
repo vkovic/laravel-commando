@@ -82,29 +82,6 @@ class TestCase extends OrchestraTestCase
 //        config()->set('database.connections.mysql.database', $database);
     }
 
-    public function artisan($command, $parameters = [])
-    {
-        $this->exitCode = (int) Artisan::call($command, $parameters, $this->outputBuffer);
-
-        $output = explode("\n", $this->outputBuffer->fetch());
-        array_pop($output);
-        $this->output = $output;
-
-        return $this;
-    }
-
-    protected function expectsOutput($expected)
-    {
-        $this->assertContains($expected, $this->output);
-
-        return $this;
-    }
-
-    protected function assertExitCode($expected)
-    {
-        $this->assertEquals($expected, $this->exitCode);
-    }
-
     /**
      * 1) Switch default db to new name
      * 2) Run callback

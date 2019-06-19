@@ -4,8 +4,9 @@ namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
+use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
+use Vkovic\LaravelCommandos\Handlers\Database\MySql;
+use Vkovic\LaravelCommandos\Handlers\Messages;
 
 class DbDrop extends Command
 {
@@ -49,15 +50,17 @@ class DbDrop extends Command
             return config("database.connections.$default.database");
         })();
 
-        Artisan::call('db:exist', ['database' => $database]);
-        $message = trim(Artisan::output());
+        $config = config()->get('database.connections.mysql');
+        $dbHandler = new MySql($config);
 
-        if (strpos($message, 'not exist') === false) {
-            DB::statement("DROP DATABASE $database");
+        $this->info("Dropping database: '$database'");
 
-            $this->line('Database "' . $database . '" successfully dropped');
-        } else {
-            $this->line('Can not drop database "' . $database . '". Database does not exist');
+        try {
+            $dbHandler->dropDatabase($database);
+        } catch (AbstractDbException $e) {
+            return  $this->line($e->getMessage());
         }
+
+        $this->info('Done');
     }
 }
