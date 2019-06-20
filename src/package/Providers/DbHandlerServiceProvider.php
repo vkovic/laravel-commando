@@ -4,7 +4,6 @@ namespace Vkovic\LaravelCommandos\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Vkovic\LaravelCommandos\Handlers\Database\AbstractHandler;
-use Vkovic\LaravelCommandos\Handlers\Database\MySql;
 
 class DbHandlerServiceProvider extends ServiceProvider
 {
@@ -16,10 +15,18 @@ class DbHandlerServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(AbstractHandler::class, function ($app) {
-            // TODO
-            // Other cases instead of mysql (sqlite, postgress ...)
-            $config = config()->get('database.connections.mysql');
-            return new MySql($config);
+            $connectionName = config('laravel-commandos.database.connection');
+            $config = config()->get('database.connections.' . $connectionName);
+            $driver = $config['driver'];
+            $dbHandlerClass = config('laravel-commandos.database.driver_handler.' . $driver);
+
+            if ($dbHandlerClass === null) {
+                throw new \Exception('Laravel Commandos driver handler must be defined for driver: ' . $driver);
+            }
+
+            // Default Laravel database array config will be directly injected into db handler
+            // so we can init custom connection (not dependant on underlying project) there
+            return new $dbHandlerClass($config);
         });
     }
 }

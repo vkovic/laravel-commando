@@ -9,8 +9,22 @@ use Vkovic\LaravelCommandos\Console\Commands\Database\DbExist;
 
 class LaravelCommandosServiceProvider extends ServiceProvider
 {
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->publishes([
+            __DIR__ . '/../../config' => config_path()
+        ]);
+    }
+
     public function register()
     {
+        $this->mergeConfigFrom(__DIR__ . '/../../config/laravel-commandos.php', 'laravel-commandos');
+
         $this->registerCommands();
     }
 
