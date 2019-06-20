@@ -2,11 +2,9 @@
 
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
-use Illuminate\Console\Command;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
-use Vkovic\LaravelCommandos\Handlers\Database\MySql;
 
-class DbExist extends Command
+class DbExist extends AbstractDbCommand
 {
     /**
      * The name and signature of the console command.
@@ -36,15 +34,12 @@ class DbExist extends Command
             return config("database.connections.$default.database");
         })();
 
-        $config = config()->get('database.connections.mysql');
-        $dbHandler = new MySql($config);
-
         $this->info("Checking database: '$database'");
 
         try {
-            $dbExists = $dbHandler->databaseExists($database);
+            $dbExists = $this->dbHandler->databaseExists($database);
         } catch (AbstractDbException $e) {
-            return $this->line($e->getMessage());
+            return $this->error($e->getMessage());
         }
 
         if ($dbExists) {

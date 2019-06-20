@@ -2,19 +2,10 @@
 
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
-use Illuminate\Console\Command;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
-use Vkovic\LaravelCommandos\Handlers\Database\MySql;
 
-class DbCreate extends Command
+class DbCreate extends AbstractDbCommand
 {
-    /**
-     * Current database name (from env)
-     *
-     * @var string
-     */
-    protected $db;
-
     /**
      * The name and signature of the console command.
      *
@@ -45,13 +36,10 @@ class DbCreate extends Command
             return config("database.connections.$default.database");
         })();
 
-        $config = config()->get('database.connections.mysql');
-        $dbHandler = new MySql($config);
-
         $this->info("Creating database: '$database'");
 
         try {
-            $dbHandler->createDatabase($database);
+            $this->dbHandler->createDatabase($database);
         } catch (AbstractDbException $e) {
             return $this->error($e->getMessage());
         }

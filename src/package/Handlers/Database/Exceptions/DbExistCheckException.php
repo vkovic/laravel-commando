@@ -4,5 +4,8 @@ namespace Vkovic\LaravelCommandos\Handlers\Database\Exceptions;
 
 class DbExistCheckException extends AbstractDbException
 {
-    protected $message = 'Error checking database exists';
+    public static function getLocalMessage(): string
+    {
+        return 'Error checking database exists';
+    }
 }

@@ -14,7 +14,7 @@ class DbExistCommandTest extends TestCase
         $dbName = config()->get('database.connections.mysql.database');
 
         $this->artisan('db:exist', ['database' => $dbName])
-            ->expectsOutput('Database "' . $dbName . '" exist')
+            ->expectsOutput('Database exist')
             ->assertExitCode(0);
     }
 
@@ -26,7 +26,7 @@ class DbExistCommandTest extends TestCase
         $database = config()->get('database.connections.mysql.database');
 
         $this->artisan('db:exist')
-            ->expectsOutput('Database "' . $database . '" exist')
+            ->expectsOutput('Database exist')
             ->assertExitCode(0);
     }
 
@@ -38,7 +38,7 @@ class DbExistCommandTest extends TestCase
         $database = 'non_existing_db';
 
         $this->artisan('db:exist', ['database' => $database])
-            ->expectsOutput('Database "' . $database . '" does not exist')
+            ->expectsOutput('Database does not exist')
             ->assertExitCode(0);
     }
 
@@ -51,7 +51,7 @@ class DbExistCommandTest extends TestCase
         config()->set('database.connections.mysql.database', $database);
 
         $this->artisan('db:exist')
-            ->expectsOutput('Database "' . $database . '" does not exist')
+            ->expectsOutput('Database does not exist')
             ->assertExitCode(0);
     }
 }

@@ -2,22 +2,17 @@
 
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
-use Illuminate\Console\Command;
-use Illuminate\Console\ConfirmableTrait;
+use Vkovic\LaravelCommandos\Handlers\Database\AbstractHandler;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
-use Vkovic\LaravelCommandos\Handlers\Database\MySql;
-use Vkovic\LaravelCommandos\Handlers\Messages;
 
-class DbDrop extends Command
+class DbDrop extends AbstractDbCommand
 {
-    use ConfirmableTrait;
-
     /**
-     * Current database name (from env)
+     * Database operations handler
      *
-     * @var string
+     * @var AbstractHandler
      */
-    protected $db;
+    protected $dbHandler;
 
     /**
      * The name and signature of the console command.
@@ -50,15 +45,16 @@ class DbDrop extends Command
             return config("database.connections.$default.database");
         })();
 
-        $config = config()->get('database.connections.mysql');
-        $dbHandler = new MySql($config);
-
         $this->info("Dropping database: '$database'");
 
+        if (!$this->dbHandler->databaseExists($database)) {
+            return $this->line('Database does not exist');
+        }
+
         try {
-            $dbHandler->dropDatabase($database);
+            $this->dbHandler->dropDatabase($database);
         } catch (AbstractDbException $e) {
-            return  $this->line($e->getMessage());
+            return $this->error($e->getMessage());
         }
 
         $this->info('Done');

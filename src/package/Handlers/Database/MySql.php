@@ -106,12 +106,11 @@
 namespace Vkovic\LaravelCommandos\Handlers\Database;
 
 use PDO;
-use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\DbCreateException;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\DbDropException;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\DbExistCheckException;
 
-class MySql extends AbstractDbException
+class MySql extends AbstractHandler
 {
     /**
      * @var PDO

@@ -4,5 +4,8 @@ namespace Vkovic\LaravelCommandos\Handlers\Database\Exceptions;
 
 class DbCreateException extends AbstractDbException
 {
-    protected $message = 'Error creating database';
+    public static function getLocalMessage(): string
+    {
+        return 'Error creating database';
+    }
 }
