@@ -2,7 +2,7 @@
 
 namespace Vkovic\LaravelCommandos\Handlers\Database;
 
-abstract class AbstractHandler
+abstract class AbstractDbHandler
 {
     abstract public function databaseExists($database): bool;
 

@@ -2,7 +2,7 @@
 
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
-use Vkovic\LaravelCommandos\Handlers\Database\AbstractHandler;
+use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
 
 class DbDrop extends AbstractDbCommand
@@ -10,7 +10,7 @@ class DbDrop extends AbstractDbCommand
     /**
      * Database operations handler
      *
-     * @var AbstractHandler
+     * @var AbstractDbHandler
      */
     protected $dbHandler;
 

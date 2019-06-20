@@ -3,18 +3,18 @@
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
 use Illuminate\Console\Command;
-use Vkovic\LaravelCommandos\Handlers\Database\AbstractHandler;
+use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
 
 class AbstractDbCommand extends Command
 {
     /**
      * Database operations handler
      *
-     * @var AbstractHandler
+     * @var AbstractDbHandler
      */
     protected $dbHandler;
 
-    public function __construct(AbstractHandler $dbHandler)
+    public function __construct(AbstractDbHandler $dbHandler)
     {
         parent::__construct();
 

@@ -3,7 +3,7 @@
 namespace Vkovic\LaravelCommandos\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Vkovic\LaravelCommandos\Handlers\Database\AbstractHandler;
+use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
 
 class DbHandlerServiceProvider extends ServiceProvider
 {
@@ -14,7 +14,7 @@ class DbHandlerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(AbstractHandler::class, function ($app) {
+        $this->app->singleton(AbstractDbHandler::class, function ($app) {
             $connectionName = config('laravel-commandos.database.connection');
             $config = config()->get('database.connections.' . $connectionName);
             $driver = $config['driver'];
