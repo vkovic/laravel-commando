@@ -2,10 +2,9 @@
 
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
-use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 
-class DbDump extends Command
+class DbDump extends AbstractDbCommand
 {
     use ConfirmableTrait;
 
@@ -25,18 +24,11 @@ class DbDump extends Command
      */
     protected $description = 'Dump default (env defined) database without db prefix and view definer';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
-        if (!$this->confirmToProceed()) {
-            return 1;
-        }
-
-        $this->verifyMysqldumpExists();
+        // TODO
+        // Implement arguments that user can pass to customize dump process.
+        // Also add easy gzip fn
 
         $user = env('DB_USERNAME');
         $password = env('DB_PASSWORD');
@@ -51,20 +43,7 @@ class DbDump extends Command
         $removeDbPrefix = "| sed -e 's/`$database`.`/`/g'";
 
         $command = "mysqldump -h $host -u$user -p$password $database $removeDefiner $removeDbPrefix > $dump";
-        if (!`$command`) {
-            $this->info('Dump created at: ' . $dump);
-        } else {
-            $this->error('Command failed');
-        }
-    }
 
-    protected function verifyMysqldumpExists()
-    {
-        // If `mysqldump` bash command not found
-        if (!`which mysqldump`) {
-            $this->error('mysqldump command does not exit');
-            $this->info('You can install mysqldump by running `apt install mysql-client`');
-            exit(1);
-        }
+        $this->consoleHandler->executeCommand($command);
     }
 }
