@@ -6,82 +6,27 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Vkovic\LaravelCommandos\Providers\ConsoleHandlerServiceProvider;
 use Vkovic\LaravelCommandos\Providers\DbHandlerServiceProvider;
 use Vkovic\LaravelCommandos\Providers\LaravelCommandosServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
     /**
-     * @var BufferedOutput
-     */
-    private $outputBuffer;
-
-    /**
-     * @var array
-     */
-    private $output = [];
-
-    /**
-     * @var int
-     */
-    private $exitCode = -1;
-
-    /**
-     * Setup the test environment.
-     *
-     * @throws \Exception
-     *
-     * @return void
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->outputBuffer = new BufferedOutput;
-    }
-
-    /**
      * Trick to add migration only for testing,
      * and not the one from package service provider
      *
      * @param Application $app
      *
-     * @return string
+     * @return array
      */
     protected function getPackageProviders($app)
     {
         return [
             DbHandlerServiceProvider::class,
+            ConsoleHandlerServiceProvider::class,
             LaravelCommandosServiceProvider::class
         ];
-    }
-
-    /**
-     * @param \Illuminate\Foundation\Application $app
-     */
-    protected function getEnvironmentSetUp($app)
-    {
-        $this->setUpDatabase();
-    }
-
-    /**
-     * Setup default database used for testing
-     */
-    protected function setUpDatabase()
-    {
-        $this->switchDefaultDb(null, function ($defaultDb) {
-            DB::statement("CREATE DATABASE IF NOT EXISTS $defaultDb");
-        });
-//        // Set database name to `null`
-//        // so we can create db without error
-//        // and than return it to normal
-//        $database = config()->get('database.connections.mysql.database');
-//        config()->set('database.connections.mysql.database', null);
-//
-//        DB::statement("CREATE DATABASE IF NOT EXISTS $database");
-//
-//        // Reset database name
-//        config()->set('database.connections.mysql.database', $database);
     }
 
     /**

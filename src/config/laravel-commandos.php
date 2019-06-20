@@ -1,6 +1,10 @@
 <?php
 
 return [
+    //
+    // Database
+    //
+
     'database' => [
         // Default app connection name.
         // By default we'll use the same connection as underlying Laravel project
@@ -9,10 +13,23 @@ return [
         // By Laravel defaults, it can be: `sqlite`, `mysql`, `pgsql` and `sqlsrv`.
         // Here, we need to define which handler we want to use for which driver.
         'driver_handler' => [
-            'sqlite' => null,
             'mysql' => \Vkovic\LaravelCommandos\Handlers\Database\MySql::class,
+            'sqlite' => null,
             'pgsql' => null,
             'sqlsrv' => null,
         ]
     ],
+
+    //
+    // Console
+    //
+
+    'console' => [
+        'system' => 'linux',
+        'console_handler' => [
+            'linux' => \Vkovic\LaravelCommandos\Handlers\Console\Linux::class,
+            'macos' => null,
+            'windows' => null,
+        ]
+    ]
 ];

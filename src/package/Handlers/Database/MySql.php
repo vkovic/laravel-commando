@@ -45,23 +45,19 @@ class MySql extends AbstractDbHandler
     public function createDatabase($database): void
     {
         try {
-            $stmt = $this->pdo->query("CREATE DATABASE '$database'");
+            $stmt = $this->pdo->exec("CREATE DATABASE `$database`");
         } catch (\Exception $e) {
             throw new DbCreateException($e->getMessage());
         }
-
-        $stmt->execute();
     }
 
     public function dropDatabase($database): void
     {
         try {
-            $stmt = $this->pdo->query("DROP DATABASE '$database'");
+            $stmt = $this->pdo->exec("DROP DATABASE `$database`");
         } catch (\Exception $e) {
             throw new DbDropException($e->getMessage());
         }
-
-        $stmt->execute();
     }
 
     protected function getPdo($host, $port, $username, $password): PDO
