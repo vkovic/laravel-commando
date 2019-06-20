@@ -7,6 +7,7 @@ use Vkovic\LaravelCommandos\Console\Commands\Database\DbCreate;
 use Vkovic\LaravelCommandos\Console\Commands\Database\DbDrop;
 use Vkovic\LaravelCommandos\Console\Commands\Database\DbDump;
 use Vkovic\LaravelCommandos\Console\Commands\Database\DbExist;
+use Vkovic\LaravelCommandos\Console\Commands\Database\DbImportDump;
 
 class LaravelCommandosServiceProvider extends ServiceProvider
 {
@@ -37,6 +38,7 @@ class LaravelCommandosServiceProvider extends ServiceProvider
             DbExist::class,
             DbDrop::class,
             DbDump::class,
+            DbImportDump::class,
             // Other commands
         ]);
     }

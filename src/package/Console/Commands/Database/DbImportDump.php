@@ -2,10 +2,9 @@
 
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
-use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 
-class DbImportDump extends Command
+class DbImportDump extends AbstractDbCommand
 {
     use ConfirmableTrait;
 
@@ -16,6 +15,7 @@ class DbImportDump extends Command
      */
     protected $signature = 'db:import-dump 
                                 {database? : Which database to use as import destination. Db from env will be used if none passed}
+                                {dump? : Which dump file to use as import source. TODO: Which one will be used if none passed}
                                 {--force : Force operation to run when in production.}
                            ';
 
@@ -33,42 +33,79 @@ class DbImportDump extends Command
      */
     public function handle()
     {
-        if (\App::environment('production')) {
-            // TODO
-            $this->error("Command can't be run in production (for now)");
-        }
+        // TODO
+        // Implement arguments that user can pass to customize dump process.
+        // Also add easy gzip fn
 
-        $this->verifyMysqlPakcageExists();
-
-        $database = $this->argument('database') ?? env('DB_DATABASE');
-        $this->call('db:create', ['database' => $database]);
-
-        $host = env('DB_HOST');
-        $user = env('DB_USERNAME');
-        $password = env('DB_PASSWORD');
-
-        $dump = storage_path('dump.sql');
+        $dump = $this->argument('dump') ?: storage_path('dump.sql');
 
         if (!file_exists($dump)) {
-            $this->error('file not exist');
-            return 1;
+            throw new \Exception('Dump file for import not exists');
         }
 
-        $command = "mysql -h $host -u$user -p$password $database < $dump";
-        if (!`$command`) {
-            $this->info("Dump loaded into database: $database");
+        // Get database name either from passed argument (if any)
+        // or from default database configuration
+        $database = $this->argument('database') ?: (function () {
+            $default = config('database.default');
+
+            return config("database.connections.$default.database");
+        })();
+
+        //
+        // What if db exists? .. or not? Dive
+        //
+
+        if ($this->dbHandler->databaseExists($database)) {
+            $message = "Database '$database' exist. What should we do:";
+            $choices = [
+                'Oh, I changed my mind, I dont want to import dump for now',
+                'Yeah, import dump over',
+                'Drop database (!!!CaUtIoN!!) and than import dump',
+            ];
+
+            $choice = $this->choice($message, $choices, 0);
+
+            if ($choice == 0) {
+                return $this->line('Command aborted');
+            }
+
+            if ($choice == 2) {
+                $this->dbHandler->createDatabase($database);
+                $this->dbHandler->dropDatabase($database);
+            }
+
+            // If dump is 1 we'll do nothing
         } else {
-            $this->error('Command failed');
-        }
-    }
+            $message = "Database '$database' not exist. What should we do:";
+            $choices = [
+                'Oh, I changed my mind, I dont want to import dump for now',
+                "Yeah, create '$database' and import dump over",
+            ];
 
-    protected function verifyMysqlPakcageExists()
-    {
-        // If `mysqldump` bash command not found
-        if (!`which mysql`) {
-            $this->error('`mysql` package does not exit');
-            $this->info('You can install `mysql` by running `apt install mysql-client`');
-            exit(1);
+            $choice = $this->choice($message, $choices, 0);
+
+            if ($choice == 0) {
+                return $this->line('Command aborted');
+            }
+
+            if ($choice == 1) {
+                $this->dbHandler->createDatabase($database);
+            }
         }
+
+        //
+        // Lets run the command and import dump
+        //
+
+        $user = env('DB_USERNAME');
+        $password = env('DB_PASSWORD');
+        $database = env('DB_DATABASE');
+        $host = env('DB_HOST');
+
+        $command = "mysql -h $host -u$user -p$password $database < $choice";
+
+        $this->consoleHandler->executeCommand($command);
+
+        $this->info('Done');
     }
 }
