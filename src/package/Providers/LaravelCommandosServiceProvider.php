@@ -19,13 +19,13 @@ class LaravelCommandosServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../../config' => config_path()
+            src_path('config') => config_path()
         ]);
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../../config/laravel-commandos.php', 'laravel-commandos');
+        $this->mergeConfigFrom(src_path('config/laravel-commandos.php'), 'laravel-commandos');
 
         $this->registerCommands();
     }

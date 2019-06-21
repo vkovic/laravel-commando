@@ -16,7 +16,10 @@
   "autoload": {
     "psr-4": {
       "Vkovic\\LaravelCommandos\\": "src/package"
-    }
+    },
+    "files": [
+        "src/package/helpers.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {
