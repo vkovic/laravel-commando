@@ -36,6 +36,11 @@ class MySqlDbHandlerTest extends TestCase
         // Create default database if not exists
         $database = env('DB_DATABASE');
         $this->pdo->exec("CREATE DATABASE IF NOT EXISTS `$database`");
+
+        // Import example dump
+        $dump = __DIR__ . '/../../../../tests/Support/files/dump.sql';
+        $command = "mysql -h db -uroot -proot `$database` < " . $dump;
+        dd(exec($command));
     }
 
     /**
@@ -64,5 +69,18 @@ class MySqlDbHandlerTest extends TestCase
         $this->assertNotFalse($stmt->fetch());
 
         $this->pdo->exec("DROP DATABASE $database");
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_table_fields()
+    {
+        $database = env('DB_DATABASE');
+        $table = '';
+        $dbHandler = new MySqlHandler($this->config);
+
+        $stmt = $this->pdo->query("SHOW COLUMNS FROM `$database`");
+        $this->assertNotFalse($stmt->fetch());
     }
 }

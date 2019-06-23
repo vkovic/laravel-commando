@@ -9,6 +9,7 @@ use Vkovic\LaravelCommandos\Console\Commands\Database\DbDumpCommand;
 use Vkovic\LaravelCommandos\Console\Commands\Database\DbExistCommand;
 use Vkovic\LaravelCommandos\Console\Commands\Database\DbImportDumpCommand;
 use Vkovic\LaravelCommandos\Console\Commands\Database\DbSummonCommand;
+use Vkovic\LaravelCommandos\Console\Commands\Model\ModelFieldsCommand;
 
 class LaravelCommandosServiceProvider extends ServiceProvider
 {
@@ -41,7 +42,8 @@ class LaravelCommandosServiceProvider extends ServiceProvider
             DbDumpCommand::class,
             DbImportDumpCommand::class,
             DbSummonCommand::class,
-            // Other commands
+            // Model commands
+            ModelFieldsCommand::class
         ]);
     }
 }

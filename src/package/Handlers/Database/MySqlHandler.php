@@ -60,6 +60,19 @@ class MySqlHandler extends AbstractDbHandler
         }
     }
 
+    public function getColumns($database, $table): array
+    {
+        $stmt = $this->pdo->query("SHOW COLUMNS FROM `$database`.`$table`");
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $field) {
+
+        }
+
+
+        dd($stmt->fetchAll());
+        // TODO: Implement getFields() method.
+    }
+
     protected function getPdo($host, $port, $username, $password): PDO
     {
         if ($this->pdo === null) {

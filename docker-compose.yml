@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: .docker/app/Dockerfile
+    depends_on:
+      - db
     volumes:
       - ./:/var/www/html/
 
