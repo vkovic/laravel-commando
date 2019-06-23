@@ -3,9 +3,13 @@
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
 use Illuminate\Console\Command;
+use Vkovic\LaravelCommandos\Handlers\Artisan\WithArtisanHandler;
+use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
 class DbSummonCommand extends Command
 {
+    use WithArtisanHandler, WithDbHandler;
+
     protected $signature = 'db:summon
                                 {database? : Which database to use as import destination. Db from env will be used if none passed}
                            ';
@@ -27,19 +31,14 @@ class DbSummonCommand extends Command
             return config("database.connections.$default.database");
         })();
 
-        // TODO
-
-        if ($this->dbHandler->databaseExists($database)) {
-            $this->dbHandler->dropDatabase($database);
+        if ($this->dbHandler()->databaseExists($database)) {
+            $this->dbHandler()->dropDatabase($database);
         }
 
-        $this->dbHandler->createDatabase($database);
+        $this->dbHandler()->createDatabase($database);
 
-        $this->artisanHandler->call('migrate');
-        $this->artisanHandler->call('db:seed');
-
-        $this->call('migrate');
-        $this->call('db:seed');
+        $this->artisanHandler()->call('migrate');
+        $this->artisanHandler()->call('db:seed');
 
         // Success message
         $this->info('Done');
