@@ -2,11 +2,13 @@
 
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
+use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
+use Vkovic\LaravelCommandos\Handlers\Console\WithConsoleHandler;
 
-class DbDump extends AbstractDbCommand
+class DbDump extends Command
 {
-    use ConfirmableTrait;
+    use WithConsoleHandler, ConfirmableTrait;
 
     /**
      * The name and signature of the console command.
@@ -44,6 +46,6 @@ class DbDump extends AbstractDbCommand
 
         $command = "mysqldump -h $host -u$user -p$password $database $removeDefiner $removeDbPrefix > $dump";
 
-        $this->consoleHandler->executeCommand($command);
+        $this->consoleHandler()->executeCommand($command);
     }
 }

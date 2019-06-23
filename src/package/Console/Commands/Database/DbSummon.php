@@ -2,7 +2,9 @@
 
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
-class DbSummon extends AbstractDbCommand
+use Illuminate\Console\Command;
+
+class DbSummon extends Command
 {
     protected $signature = 'db:summon
                                 {database? : Which database to use as import destination. Db from env will be used if none passed}

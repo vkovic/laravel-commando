@@ -9,7 +9,6 @@ use Vkovic\LaravelCommandos\Test\TestCase;
 class DbSummonCommandTest extends TestCase
 {
     /**
-     * @test
      */
     public function it_can_perform_summon()
     {

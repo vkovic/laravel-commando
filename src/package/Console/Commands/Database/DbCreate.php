@@ -2,10 +2,14 @@
 
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
+use Illuminate\Console\Command;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
+use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
-class DbCreate extends AbstractDbCommand
+class DbCreate extends Command
 {
+    use WithDbHandler;
+
     /**
      * The name and signature of the console command.
      *
@@ -39,7 +43,7 @@ class DbCreate extends AbstractDbCommand
         $this->info("Creating database: '$database'");
 
         try {
-            $this->dbHandler->createDatabase($database);
+            $this->dbHandler()->createDatabase($database);
         } catch (AbstractDbException $e) {
             return $this->error($e->getMessage());
         }

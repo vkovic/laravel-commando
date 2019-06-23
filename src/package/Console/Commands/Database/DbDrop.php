@@ -2,11 +2,15 @@
 
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
+use Illuminate\Console\Command;
 use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
+use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
-class DbDrop extends AbstractDbCommand
+class DbDrop extends Command
 {
+    use WithDbHandler;
+
     /**
      * Database operations handler
      *
@@ -47,12 +51,12 @@ class DbDrop extends AbstractDbCommand
 
         $this->info("Dropping database: '$database'");
 
-        if (!$this->dbHandler->databaseExists($database)) {
+        if (!$this->dbHandler()->databaseExists($database)) {
             return $this->line('Database does not exist');
         }
 
         try {
-            $this->dbHandler->dropDatabase($database);
+            $this->dbHandler()->dropDatabase($database);
         } catch (AbstractDbException $e) {
             return $this->error($e->getMessage());
         }

@@ -2,11 +2,14 @@
 
 namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
+use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
+use Vkovic\LaravelCommandos\Handlers\Console\WithConsoleHandler;
+use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
-class DbImportDump extends AbstractDbCommand
+class DbImportDump extends Command
 {
-    use ConfirmableTrait;
+    use ConfirmableTrait, WithDbHandler, WithConsoleHandler;
 
     /**
      * The name and signature of the console command.
@@ -55,7 +58,7 @@ class DbImportDump extends AbstractDbCommand
         // What if db exists? .. or not? Dive
         //
 
-        if ($this->dbHandler->databaseExists($database)) {
+        if ($this->dbHandler()->databaseExists($database)) {
             $message = "Database '$database' exist. What should we do:";
             $choices = [
                 'Oh, I changed my mind, I dont want to import dump for now',
@@ -70,8 +73,8 @@ class DbImportDump extends AbstractDbCommand
             }
 
             if ($choice == 2) {
-                $this->dbHandler->createDatabase($database);
-                $this->dbHandler->dropDatabase($database);
+                $this->dbHandler()->createDatabase($database);
+                $this->dbHandler()->dropDatabase($database);
             }
 
             // If dump is 1 we'll do nothing
@@ -89,7 +92,7 @@ class DbImportDump extends AbstractDbCommand
             }
 
             if ($choice == 1) {
-                $this->dbHandler->createDatabase($database);
+                $this->dbHandler()->createDatabase($database);
             }
         }
 
@@ -104,7 +107,7 @@ class DbImportDump extends AbstractDbCommand
 
         $command = "mysql -h $host -u$user -p$password $database < $choice";
 
-        $this->consoleHandler->executeCommand($command);
+        $this->consoleHandler()->executeCommand($command);
 
         $this->info('Done');
     }
