@@ -1,20 +1,12 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Vkovic\LaravelCommandos\Console\Commands\Database;
 
-use Illuminate\Console\Command;
-use Illuminate\Console\ConfirmableTrait;
-
-class DbSummon extends Command
+class DbSummon extends AbstractDbCommand
 {
-    use ConfirmableTrait;
-
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'db:summon {--force : Force the operation to run when in production.}';
+    protected $signature = 'db:summon
+                                {database? : Which database to use as import destination. Db from env will be used if none passed}
+                           ';
 
     /**
      * The console command description.
@@ -23,26 +15,31 @@ class DbSummon extends Command
      */
     protected $description = 'Empty DB, than perform migrate and seed';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
-        // Create db (from env) if not exists
-        $this->call('db:create');
+        // TODO
+        // Prevent on production
+        $database = $this->argument('database') ?: (function () {
+            $default = config('database.default');
 
-        // Drop tables
-        $this->call('db:drop');
+            return config("database.connections.$default.database");
+        })();
 
-        // Migrate
+        // TODO
+
+        if ($this->dbHandler->databaseExists($database)) {
+            $this->dbHandler->dropDatabase($database);
+        }
+
+        $this->dbHandler->createDatabase($database);
+
+        $this->artisanHandler->call('migrate');
+        $this->artisanHandler->call('db:seed');
+
         $this->call('migrate');
-
-        // Seed
         $this->call('db:seed');
 
         // Success message
-        $this->info(PHP_EOL . 'Database dropped, migrated and seeded successfully' . PHP_EOL);
+        $this->info('Done');
     }
 }
