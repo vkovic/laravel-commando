@@ -7,7 +7,7 @@ use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
 use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
-class DbDrop extends Command
+class DbDropCommand extends Command
 {
     use WithDbHandler;
 

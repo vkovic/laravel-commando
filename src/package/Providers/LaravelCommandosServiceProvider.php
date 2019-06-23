@@ -3,12 +3,12 @@
 namespace Vkovic\LaravelCommandos\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Vkovic\LaravelCommandos\Console\Commands\Database\DbCreate;
-use Vkovic\LaravelCommandos\Console\Commands\Database\DbDrop;
-use Vkovic\LaravelCommandos\Console\Commands\Database\DbDump;
-use Vkovic\LaravelCommandos\Console\Commands\Database\DbExist;
-use Vkovic\LaravelCommandos\Console\Commands\Database\DbImportDump;
-use Vkovic\LaravelCommandos\Console\Commands\Database\DbSummon;
+use Vkovic\LaravelCommandos\Console\Commands\Database\DbCreateCommand;
+use Vkovic\LaravelCommandos\Console\Commands\Database\DbDropCommand;
+use Vkovic\LaravelCommandos\Console\Commands\Database\DbDumpCommand;
+use Vkovic\LaravelCommandos\Console\Commands\Database\DbExistCommand;
+use Vkovic\LaravelCommandos\Console\Commands\Database\DbImportDumpCommand;
+use Vkovic\LaravelCommandos\Console\Commands\Database\DbSummonCommand;
 
 class LaravelCommandosServiceProvider extends ServiceProvider
 {
@@ -35,12 +35,12 @@ class LaravelCommandosServiceProvider extends ServiceProvider
     {
         $this->commands([
             // Database related commands
-            DbCreate::class,
-            DbExist::class,
-            DbDrop::class,
-            DbDump::class,
-            DbImportDump::class,
-            DbSummon::class,
+            DbCreateCommand::class,
+            DbExistCommand::class,
+            DbDropCommand::class,
+            DbDumpCommand::class,
+            DbImportDumpCommand::class,
+            DbSummonCommand::class,
             // Other commands
         ]);
     }

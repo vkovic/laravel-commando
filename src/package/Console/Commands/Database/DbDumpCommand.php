@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Vkovic\LaravelCommandos\Handlers\Console\WithConsoleHandler;
 
-class DbDump extends Command
+class DbDumpCommand extends Command
 {
     use WithConsoleHandler, ConfirmableTrait;
 
