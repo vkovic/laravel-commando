@@ -7,7 +7,7 @@ use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\DbCreateException;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\DbDropException;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\DbExistCheckException;
 
-class MySql extends AbstractDbHandler
+class MySqlHandler extends AbstractDbHandler
 {
     /**
      * @var PDO

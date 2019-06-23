@@ -2,7 +2,7 @@
 
 namespace Vkovic\LaravelCommandos\Handlers\Console;
 
-class Linux extends AbstractConsoleHandler
+class LinuxHandler extends AbstractConsoleHandler
 {
     public function commandExists(string $command): bool
     {

@@ -2,7 +2,7 @@
 
 namespace Vkovic\LaravelCommandos\Test\Unit;
 
-use Vkovic\LaravelCommandos\Handlers\Console\Linux;
+use Vkovic\LaravelCommandos\Handlers\Console\LinuxHandler;
 use Vkovic\LaravelCommandos\Test\TestCase;
 
 class LinuxConsoleHandlerTest extends TestCase
@@ -12,7 +12,7 @@ class LinuxConsoleHandlerTest extends TestCase
      */
     public function it_can_check_if_command_exists()
     {
-        $linuxHandler = new Linux;
+        $linuxHandler = new LinuxHandler;
 
         $existingCommand = 'php';
         $nonExistingCommand = 'non-existing-package';
@@ -26,7 +26,7 @@ class LinuxConsoleHandlerTest extends TestCase
      */
     public function it_can_execute_command()
     {
-        $linuxHandler = new Linux;
+        $linuxHandler = new LinuxHandler;
 
         $output = $linuxHandler->executeCommand('ls /dev/null');
 

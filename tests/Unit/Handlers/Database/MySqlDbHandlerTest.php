@@ -4,7 +4,7 @@ namespace Vkovic\LaravelCommandos\Test\Unit;
 
 use PDO;
 use Str;
-use Vkovic\LaravelCommandos\Handlers\Database\MySql;
+use Vkovic\LaravelCommandos\Handlers\Database\MySqlHandler;
 use Vkovic\LaravelCommandos\Test\TestCase;
 
 class MySqlDbHandlerTest extends TestCase
@@ -43,7 +43,7 @@ class MySqlDbHandlerTest extends TestCase
      */
     public function it_can_check_if_database_exists()
     {
-        $dbHandler = new MySql($this->config);
+        $dbHandler = new MySqlHandler($this->config);
 
         $this->assertTrue($dbHandler->databaseExists(env('DB_DATABASE')));
         $this->assertFalse($dbHandler->databaseExists('nonexistent_database'));
@@ -57,7 +57,7 @@ class MySqlDbHandlerTest extends TestCase
         // Database to create
         $database = 'new_database';
 
-        $dbHandler = new MySql($this->config);
+        $dbHandler = new MySqlHandler($this->config);
         $dbHandler->createDatabase($database);
 
         $stmt = $this->pdo->query("SELECT schema_name FROM information_schema.schemata WHERE schema_name = '$database'");

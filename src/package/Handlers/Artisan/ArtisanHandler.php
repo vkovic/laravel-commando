@@ -2,7 +2,7 @@
 
 namespace Vkovic\LaravelCommandos\Handlers\Artisan;
 
-class Artisan extends AbstractArtisanHandler
+class ArtisanHandler extends AbstractArtisanHandler
 {
     public function call($command, array $parameters = [], $outputBuffer = null)
     {

@@ -4,7 +4,7 @@ namespace Vkovic\LaravelCommandos\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Vkovic\LaravelCommandos\Handlers\Artisan\AbstractArtisanHandler;
-use Vkovic\LaravelCommandos\Handlers\Artisan\Artisan;
+use Vkovic\LaravelCommandos\Handlers\Artisan\ArtisanHandler;
 
 class ArtisanHandlerServiceProvider extends ServiceProvider
 {
@@ -16,7 +16,7 @@ class ArtisanHandlerServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(AbstractArtisanHandler::class, function ($app) {
-            return new Artisan();
+            return new ArtisanHandler();
         });
     }
 }
