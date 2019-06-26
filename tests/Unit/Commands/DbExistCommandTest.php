@@ -6,15 +6,15 @@ use Mockery\MockInterface;
 use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
 use Vkovic\LaravelCommandos\Test\TestCase;
 
-class DbExistCommandTest extends TestCase
+class DbExistsCommandTest extends TestCase
 {
     /**
      * @test
      */
-    public function it_can_check_db_exist_when_argument_passed()
+    public function it_follows_flow()
     {
         //
-        // Default db exists | argument `database` omitted
+        // Default db | argument `database` omitted
         //
 
         $database = config()->get('database.connections.mysql.database');
@@ -28,10 +28,10 @@ class DbExistCommandTest extends TestCase
             ->assertExitCode(0);
 
         //
-        // Some db not exists | argument `database` present
+        // Non existent db | argument `database` present
         //
 
-        $database = 'non_existant_db';
+        $database = 'non_existent_db';
 
         $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
             $mock->shouldReceive('databaseExists')->once()->andReturn(false);

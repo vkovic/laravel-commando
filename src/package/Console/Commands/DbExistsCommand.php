@@ -5,7 +5,7 @@ namespace Vkovic\LaravelCommandos\Console\Commands;
 use Illuminate\Console\Command;
 use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
-class DbExistCommand extends Command
+class DbExistsCommand extends Command
 {
     use WithDbHandler;
 
