@@ -3,7 +3,6 @@
 namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
-use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
 use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
 class DbExistCommand extends Command
@@ -16,14 +15,14 @@ class DbExistCommand extends Command
      * @var string
      */
     protected $signature = 'db:exist
-                                {database? : Database (name) to be created. If passed env DB_DATABASE will be ignored.}';
+                                {database? : Db (name) to be checked for existence. If omitted, it`ll check for default db defined in env}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Check if db exists. If no argument passed it will check against database name from .env';
+    protected $description = 'Check if database exists';
 
     /**
      * Execute the console command.
@@ -38,20 +37,10 @@ class DbExistCommand extends Command
             return config("database.connections.$default.database");
         })();
 
-        $this->info("Checking database: '$database'");
-
-        try {
-            $dbExists = $this->dbHandler()->databaseExists($database);
-        } catch (AbstractDbException $e) {
-            return $this->error($e->getMessage());
-        }
-
-        if ($dbExists) {
-            $this->line('Database exist');
+        if ($this->dbHandler()->databaseExists($database)) {
+            return $this->info("Database `$database` exists");
         } else {
-            $this->line('Database does not exist');
+            return $this->warn("Database `$database` doesn`t exist");
         }
-
-        $this->info('Done');
     }
 }

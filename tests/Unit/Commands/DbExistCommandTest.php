@@ -2,6 +2,8 @@
 
 namespace Vkovic\LaravelCommandos\Test\Unit\Commands;
 
+use Mockery\MockInterface;
+use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
 use Vkovic\LaravelCommandos\Test\TestCase;
 
 class DbExistCommandTest extends TestCase
@@ -11,47 +13,32 @@ class DbExistCommandTest extends TestCase
      */
     public function it_can_check_db_exist_when_argument_passed()
     {
-        $dbName = config()->get('database.connections.mysql.database');
+        //
+        // Default db exists | argument `database` omitted
+        //
 
-        $this->artisan('db:exist', ['database' => $dbName])
-            ->expectsOutput('Database exist')
-            ->assertExitCode(0);
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_check_db_exist_when_argument_omitted()
-    {
         $database = config()->get('database.connections.mysql.database');
 
-        $this->artisan('db:exist')
-            ->expectsOutput('Database exist')
-            ->assertExitCode(0);
-    }
+        $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
+            $mock->shouldReceive('databaseExists')->once()->andReturn(true);
+        });
 
-    /**
-     * @test
-     */
-    public function it_can_check_db_not_exist_when_argument_passed()
-    {
-        $database = 'non_existing_db';
+        $this->artisan('db:exist')
+            ->expectsOutput("Database `$database` exists")
+            ->assertExitCode(0);
+
+        //
+        // Some db not exists | argument `database` present
+        //
+
+        $database = 'non_existant_db';
+
+        $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
+            $mock->shouldReceive('databaseExists')->once()->andReturn(false);
+        });
 
         $this->artisan('db:exist', ['database' => $database])
-            ->expectsOutput('Database does not exist')
-            ->assertExitCode(0);
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_check_db_not_exist_when_argument_omitted()
-    {
-        $database = 'non_existing_db';
-        config()->set('database.connections.mysql.database', $database);
-
-        $this->artisan('db:exist')
-            ->expectsOutput('Database does not exist')
+            ->expectsOutput("Database `$database` doesn`t exist")
             ->assertExitCode(0);
     }
 }
