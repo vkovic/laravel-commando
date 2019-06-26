@@ -64,16 +64,33 @@ class MySqlHandler extends AbstractDbHandler
     {
         $stmt = $this->pdo->query("SHOW COLUMNS FROM `$database`.`$table`");
 
-        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $field) {
-
+        $data = [];
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $i => $field) {
+            // `name`, `position`, `type`, `nullable`, `default_value
+            $data[] = [
+                'name' => $field['Field'],
+                'position' => $i,
+                'type' => $field['Type'],
+                'nullable' => $field['Null'] == 'YES',
+                'default_value' => $field['Default']
+            ];
         }
 
-
-        dd($stmt->fetchAll());
-        // TODO: Implement getFields() method.
+        return $data;
     }
 
-    protected function getPdo($host, $port, $username, $password): PDO
+    /**
+     * Get PDO connection in case we want to perform custom queries
+     *
+     * @param $host
+     * @param $port
+     * @param $username
+     * @param $password
+     * @param $database
+     *
+     * @return PDO
+     */
+    public function getPdo($host, $port, $username, $password): PDO
     {
         if ($this->pdo === null) {
             $pdo = new PDO(sprintf('mysql:host=%s;port=%d;', $host, $port), $username, $password);
@@ -84,4 +101,20 @@ class MySqlHandler extends AbstractDbHandler
 
         return $this->pdo;
     }
+
+//    public function getPdo($host, $port, $username, $password, $database = null): PDO
+//    {
+//        if ($this->pdo === null) {
+//            $dsn = "mysql:host=$host;port=$port;" . $database ?: "dbname=$database;" . '';
+//
+//            dump($dsn);
+//
+//            $pdo = new PDO($dsn, $username, $password);
+//            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//
+//            $this->pdo = $pdo;
+//        }
+//
+//        return $this->pdo;
+//    }
 }

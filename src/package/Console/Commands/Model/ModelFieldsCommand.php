@@ -3,6 +3,7 @@
 namespace Vkovic\LaravelCommandos\Console\Commands\Model;
 
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Model;
 use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
 class ModelFieldsCommand extends Command
@@ -15,7 +16,7 @@ class ModelFieldsCommand extends Command
      * @var string
      */
     protected $signature = 'model:fields
-                                {model? : Model namespace relative to app e.g. "User" or "App\User"}
+                                {model : Model namespace relative to app e.g. "User" or "App\User"}
                                 {--guarded? : TODO}
                                 {--fillable? : TODO}
                            ';
@@ -36,19 +37,29 @@ class ModelFieldsCommand extends Command
     {
         $default = config('database.default');
         $database = config("database.connections.$default.database");
+        $modelClass = 'App\\' . $this->argument('model');
+        /** @var Model $model */
+        $model = new $modelClass;
+        $casts = $model->getCasts();
+        $fillable = $model->getFillable();
+        $guarded = $model->getGuarded();
 
         // Array with: name, position, type, nullable, default_value
-        $columns = $this->dbHandler()->getColumns($database, 'products');
-
-        $headers = ['Field', 'Type', 'Nullable', 'Default', 'Casts']; // TODO 'Casts': show if field casted to something
+        $columns = $this->dbHandler()->getColumns($database, $model->getTable());
 
         $data = [];
-        foreach ($columns as $column) {
-            $data[] = [
-                $column['name'], $column['type'], $column['nullable'], $column['default_value'], $casts
+        foreach ($columns as $i => $column) {
+            $data[$i] = [
+                $column['name'],
+                $column['type'],
+                $column['nullable'] ? 'YES' : null,
+                $column['default_value'] ?? '',
+                $casts[$column['name']] ?? '', // Casts
+                in_array($column['name'], $guarded) ? 'YES' : '', // Guarded
+                in_array($column['name'], $fillable) ? 'YES' : '' // Fillable
             ];
         }
 
-        $this->table($headers, $data);
+        $this->table(['Field', 'Type', 'Nullable', 'Default', 'Casts', 'Guarded', 'Fillable'], $data);
     }
 }
