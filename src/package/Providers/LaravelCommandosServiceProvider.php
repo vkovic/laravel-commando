@@ -29,6 +29,8 @@ class LaravelCommandosServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(src_path('config/laravel-commandos.php'), 'laravel-commandos');
 
+        $this->registerProviders();
+
         $this->registerCommands();
     }
 
@@ -45,5 +47,15 @@ class LaravelCommandosServiceProvider extends ServiceProvider
             // Model commands
             ModelFieldsCommand::class
         ]);
+    }
+
+    /**
+     * Register service providers on which
+     */
+    protected function registerProviders()
+    {
+        $this->app->register(DbHandlerServiceProvider::class);
+        $this->app->register(ConsoleHandlerServiceProvider::class);
+        $this->app->register(ArtisanHandlerServiceProvider::class);
     }
 }
