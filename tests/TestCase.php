@@ -4,9 +4,6 @@ namespace Vkovic\LaravelCommandos\Test;
 
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
-use Vkovic\LaravelCommandos\Providers\ArtisanHandlerServiceProvider;
-use Vkovic\LaravelCommandos\Providers\ConsoleHandlerServiceProvider;
-use Vkovic\LaravelCommandos\Providers\DbHandlerServiceProvider;
 use Vkovic\LaravelCommandos\Providers\LaravelCommandosServiceProvider;
 
 class TestCase extends OrchestraTestCase
@@ -22,9 +19,6 @@ class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app)
     {
         return [
-            ArtisanHandlerServiceProvider::class,
-            DbHandlerServiceProvider::class,
-            ConsoleHandlerServiceProvider::class,
             LaravelCommandosServiceProvider::class
         ];
     }
