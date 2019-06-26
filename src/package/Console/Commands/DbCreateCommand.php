@@ -1,38 +1,29 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Console\Commands\Database;
+namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
-use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
 use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
-class DbDropCommand extends Command
+class DbCreateCommand extends Command
 {
     use WithDbHandler;
-
-    /**
-     * Database operations handler
-     *
-     * @var AbstractDbHandler
-     */
-    protected $dbHandler;
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'db:drop
-                               {database? : Database (name) to be created. If passed env DB_DATABASE will be ignored} 
-                           ';
+    protected $signature = 'db:create
+                                {database? : Database (name) to be created. If passed env DB_DATABASE will be ignored.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Drop database';
+    protected $description = 'Create db defined in .env file or with custom name if argument passed';
 
     /**
      * Execute the console command.
@@ -49,14 +40,10 @@ class DbDropCommand extends Command
             return config("database.connections.$default.database");
         })();
 
-        $this->info("Dropping database: '$database'");
-
-        if (!$this->dbHandler()->databaseExists($database)) {
-            return $this->line('Database does not exist');
-        }
+        $this->info("Creating database: '$database'");
 
         try {
-            $this->dbHandler()->dropDatabase($database);
+            $this->dbHandler()->createDatabase($database);
         } catch (AbstractDbException $e) {
             return $this->error($e->getMessage());
         }

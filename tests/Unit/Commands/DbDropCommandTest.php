@@ -1,6 +1,6 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Test\Unit;
+namespace Vkovic\LaravelCommandos\Test\Unit\Commands;
 
 use Illuminate\Support\Str;
 use Vkovic\LaravelCommandos\Test\TestCase;

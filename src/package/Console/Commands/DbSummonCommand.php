@@ -1,6 +1,6 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Console\Commands\Database;
+namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
 use Vkovic\LaravelCommandos\Handlers\Artisan\WithArtisanHandler;

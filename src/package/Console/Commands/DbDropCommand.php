@@ -1,32 +1,43 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Console\Commands\Database;
+namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
+use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
 use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
 use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
-class DbExistCommand extends Command
+class DbDropCommand extends Command
 {
     use WithDbHandler;
+
+    /**
+     * Database operations handler
+     *
+     * @var AbstractDbHandler
+     */
+    protected $dbHandler;
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'db:exist
-                                {database? : Database (name) to be created. If passed env DB_DATABASE will be ignored.}';
+    protected $signature = 'db:drop
+                               {database? : Database (name) to be created. If passed env DB_DATABASE will be ignored} 
+                           ';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Check if db exists. If no argument passed it will check against database name from .env';
+    protected $description = 'Drop database';
 
     /**
      * Execute the console command.
+     *
+     * @return mixed
      */
     public function handle()
     {
@@ -38,18 +49,16 @@ class DbExistCommand extends Command
             return config("database.connections.$default.database");
         })();
 
-        $this->info("Checking database: '$database'");
+        $this->info("Dropping database: '$database'");
 
-        try {
-            $dbExists = $this->dbHandler()->databaseExists($database);
-        } catch (AbstractDbException $e) {
-            return $this->error($e->getMessage());
+        if (!$this->dbHandler()->databaseExists($database)) {
+            return $this->line('Database does not exist');
         }
 
-        if ($dbExists) {
-            $this->line('Database exist');
-        } else {
-            $this->line('Database does not exist');
+        try {
+            $this->dbHandler()->dropDatabase($database);
+        } catch (AbstractDbException $e) {
+            return $this->error($e->getMessage());
         }
 
         $this->info('Done');

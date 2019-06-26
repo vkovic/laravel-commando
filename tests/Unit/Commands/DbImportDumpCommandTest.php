@@ -1,6 +1,6 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Test\Unit;
+namespace Vkovic\LaravelCommandos\Test\Unit\Commands;
 
 use Vkovic\LaravelCommandos\Test\TestCase;
 
@@ -24,7 +24,7 @@ class DbImportDumpCommandTest extends TestCase
     public function it_can_react_to__i_changed_my_mind()
     {
         $database = 'laravel_commandos';
-        $dump = __DIR__ . '/../Support/files/dump.sql';
+        $dump = __DIR__ . '/../../Support/files/dump.sql';
         $question = "Database '$database' exist. What should we do:";
 
         $this->artisan('db:import-dump', [
@@ -42,7 +42,7 @@ class DbImportDumpCommandTest extends TestCase
     public function it_can_import_on_existing_db()
     {
         $database = 'laravel_commandos';
-        $dump = __DIR__ . '/../Support/files/dump.sql';
+        $dump = __DIR__ . '/../../Support/files/dump.sql';
         $question = "Database '$database' exist. What should we do:";
 
         $this->artisan('db:import-dump', [

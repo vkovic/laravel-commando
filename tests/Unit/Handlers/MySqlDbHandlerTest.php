@@ -1,6 +1,6 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Test\Unit;
+namespace Vkovic\LaravelCommandos\Test\Unit\Handlers;
 
 use PDO;
 use Str;

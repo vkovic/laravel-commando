@@ -3,13 +3,13 @@
 namespace Vkovic\LaravelCommandos\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Vkovic\LaravelCommandos\Console\Commands\Database\DbCreateCommand;
-use Vkovic\LaravelCommandos\Console\Commands\Database\DbDropCommand;
-use Vkovic\LaravelCommandos\Console\Commands\Database\DbDumpCommand;
-use Vkovic\LaravelCommandos\Console\Commands\Database\DbExistCommand;
-use Vkovic\LaravelCommandos\Console\Commands\Database\DbImportDumpCommand;
-use Vkovic\LaravelCommandos\Console\Commands\Database\DbSummonCommand;
-use Vkovic\LaravelCommandos\Console\Commands\Model\ModelFieldsCommand;
+use Vkovic\LaravelCommandos\Console\Commands\DbCreateCommand;
+use Vkovic\LaravelCommandos\Console\Commands\DbDropCommand;
+use Vkovic\LaravelCommandos\Console\Commands\DbDumpCommand;
+use Vkovic\LaravelCommandos\Console\Commands\DbExistCommand;
+use Vkovic\LaravelCommandos\Console\Commands\DbImportDumpCommand;
+use Vkovic\LaravelCommandos\Console\Commands\DbSummonCommand;
+use Vkovic\LaravelCommandos\Console\Commands\ModelFieldsCommand;
 
 class LaravelCommandosServiceProvider extends ServiceProvider
 {

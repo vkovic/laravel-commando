@@ -1,6 +1,6 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Test\Unit;
+namespace Vkovic\LaravelCommandos\Test\Unit\Handlers;
 
 use Vkovic\LaravelCommandos\Handlers\Console\LinuxHandler;
 use Vkovic\LaravelCommandos\Test\TestCase;

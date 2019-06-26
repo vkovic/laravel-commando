@@ -1,6 +1,6 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Test\Unit;
+namespace Vkovic\LaravelCommandos\Test\Unit\Commands;
 
 use Mockery\MockInterface;
 use Vkovic\LaravelCommandos\Handlers\Artisan\AbstractArtisanHandler;

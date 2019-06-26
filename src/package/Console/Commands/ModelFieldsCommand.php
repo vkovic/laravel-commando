@@ -1,6 +1,6 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Console\Commands\Model;
+namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
