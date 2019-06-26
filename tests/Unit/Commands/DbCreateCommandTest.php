@@ -28,7 +28,7 @@ class DbCreateCommandTest extends TestCase
             ->assertExitCode(0);
 
         //
-        // Some db not exists | argument `database` present
+        // Non existent db | argument `database` present
         //
 
         $database = 'non_existent_db';

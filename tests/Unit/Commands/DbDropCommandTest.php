@@ -29,14 +29,16 @@ class DbDropCommandTest extends TestCase
             ->assertExitCode(0);
 
         //
-        // Some db not exists | argument `database` present
+        // Non existent db | argument `database` present
         //
+
+        $database = 'non_existent_db';
 
         $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
             $mock->shouldReceive('databaseExists')->once()->andReturn(false);
         });
 
-        $this->artisan('db:drop')
+        $this->artisan('db:drop', ['database' => $database])
             ->expectsOutput("Database `$database` doesn`t exist")
             ->assertExitCode(0);
     }
