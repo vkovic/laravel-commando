@@ -38,9 +38,9 @@ class MySqlDbHandlerTest extends TestCase
         $this->pdo->exec("CREATE DATABASE IF NOT EXISTS `$database`");
 
         // Import example dump
-        $dump = __DIR__ . '/../../../../tests/Support/files/dump.sql';
-        $command = "mysql -h db -uroot -proot `$database` < " . $dump;
-        dd(exec($command));
+//        $dump = __DIR__ . '/../../../../tests/Support/files/dump.sql';
+//        $command = "mysql -h db -uroot -proot `$database` < " . $dump;
+//        dd(exec($command));
     }
 
     /**
@@ -72,7 +72,7 @@ class MySqlDbHandlerTest extends TestCase
     }
 
     /**
-     * @test
+     *
      */
     public function it_can_get_table_fields()
     {

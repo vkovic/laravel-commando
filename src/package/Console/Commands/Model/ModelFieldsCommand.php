@@ -16,9 +16,7 @@ class ModelFieldsCommand extends Command
      * @var string
      */
     protected $signature = 'model:fields
-                                {model : Model namespace relative to app e.g. "User" or "App\User"}
-                                {--guarded? : TODO}
-                                {--fillable? : TODO}
+                                {model : Model namespace relative to App (e.g. `User` or `Models\User`)}
                            ';
 
     /**
@@ -52,7 +50,7 @@ class ModelFieldsCommand extends Command
             $data[$i] = [
                 $column['name'],
                 $column['type'],
-                $column['nullable'] ? 'YES' : null,
+                $column['nullable'] ? 'YES' : '',
                 $column['default_value'] ?? '',
                 $casts[$column['name']] ?? '', // Casts
                 in_array($column['name'], $guarded) ? 'YES' : '', // Guarded
