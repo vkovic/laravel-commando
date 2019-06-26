@@ -2,7 +2,8 @@
 
 namespace Vkovic\LaravelCommandos\Test\Unit\Commands;
 
-use Illuminate\Support\Str;
+use Mockery\MockInterface;
+use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
 use Vkovic\LaravelCommandos\Test\TestCase;
 
 class DbCreateCommandTest extends TestCase
@@ -10,25 +11,35 @@ class DbCreateCommandTest extends TestCase
     /**
      * @test
      */
-    public function it_can_create_db_when_argument_passed()
+    public function it_follows_flow()
     {
-        // We need letters only. I might saw a problem when db name starts with num
-        $database = preg_replace('/[0-9]+/', '', Str::random());
+        //
+        // Default db | argument `database` omitted
+        //
 
-        $this->artisan('db:create', ['database' => $database])
-            //->expectsOutput('Done')
-            ->assertExitCode(0);
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_handle_already_existing_db()
-    {
         $database = config()->get('database.connections.mysql.database');
 
+        $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
+            $mock->shouldReceive('databaseExists')->once()->andReturn(true);
+        });
+
+        $this->artisan('db:create')
+            ->expectsOutput("Database `$database` exists")
+            ->assertExitCode(0);
+
+        //
+        // Some db not exists | argument `database` present
+        //
+
+        $database = 'non_existent_db';
+
+        $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
+            $mock->shouldReceive('databaseExists')->once()->andReturn(false);
+            $mock->shouldReceive('createDatabase')->once()->andReturn(null);
+        });
+
         $this->artisan('db:create', ['database' => $database])
-            //->expectsOutput('Done')
+            ->expectsOutput("Database `$database` created successfully")
             ->assertExitCode(0);
     }
 }
