@@ -49,18 +49,12 @@ class DbDropCommand extends Command
             return config("database.connections.$default.database");
         })();
 
-        $this->info("Dropping database: '$database'");
-
         if (!$this->dbHandler()->databaseExists($database)) {
-            return $this->line('Database does not exist');
+            return $this->warn("Database `$database` doesn`t exist");
         }
 
-        try {
-            $this->dbHandler()->dropDatabase($database);
-        } catch (AbstractDbException $e) {
-            return $this->error($e->getMessage());
-        }
+        $this->dbHandler()->dropDatabase($database);
 
-        $this->info('Done');
+        $this->info("Database `$database` dropped successfully");
     }
 }

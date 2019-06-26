@@ -35,7 +35,7 @@ class DbCreateCommandTest extends TestCase
 
         $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
             $mock->shouldReceive('databaseExists')->once()->andReturn(false);
-            $mock->shouldReceive('createDatabase')->once()->andReturn(null);
+            $mock->shouldReceive('createDatabase')->once();
         });
 
         $this->artisan('db:create', ['database' => $database])

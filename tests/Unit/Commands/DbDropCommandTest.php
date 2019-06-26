@@ -2,7 +2,8 @@
 
 namespace Vkovic\LaravelCommandos\Test\Unit\Commands;
 
-use Illuminate\Support\Str;
+use Mockery\MockInterface;
+use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
 use Vkovic\LaravelCommandos\Test\TestCase;
 
 class DbDropCommandTest extends TestCase
@@ -10,28 +11,33 @@ class DbDropCommandTest extends TestCase
     /**
      * @test
      */
-    public function it_can_drop_db_when_argument_passed()
+    public function it_follows_flow()
     {
-        $database = Str::random();
+        //
+        // Default db | argument `database` omitted
+        //
 
-        $this->artisan('db:create', ['database' => $database]);
+        $database = config()->get('database.connections.mysql.database');
 
-        $this->artisan('db:drop', ['database' => $database])
-            //->expectsOutput('Database "' . $database . '" successfully dropped')
-            ->assertExitCode(0);
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_handle_non_existing_db()
-    {
-        $tempDatabase = Str::random();
-
-        $this->switchDefaultDb($tempDatabase, function ($defaultDb) use ($tempDatabase) {
-            $this->artisan('db:drop', ['database' => $tempDatabase])
-                //->expectsOutput('Can not drop database "' . $tempDatabase . '". Database does not exist')
-                ->assertExitCode(0);
+        $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
+            $mock->shouldReceive('databaseExists')->once()->andReturn(true);
+            $mock->shouldReceive('dropDatabase')->once();
         });
+
+        $this->artisan('db:drop')
+            ->expectsOutput("Database `$database` dropped successfully")
+            ->assertExitCode(0);
+
+        //
+        // Some db not exists | argument `database` present
+        //
+
+        $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
+            $mock->shouldReceive('databaseExists')->once()->andReturn(false);
+        });
+
+        $this->artisan('db:drop')
+            ->expectsOutput("Database `$database` doesn`t exist")
+            ->assertExitCode(0);
     }
 }
