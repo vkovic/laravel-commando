@@ -40,10 +40,17 @@ class DbImportDumpCommand extends Command
         // Implement arguments that user can pass to customize dump process.
         // Also add easy gzip fn
 
+        // Check if requirenments are met
+        if (!$this->consoleHandler()->commandExists('mysql')) {
+            $this->warn('`mysql` program required');
+            return $this->info('e.g. on Ubuntu you can install `mysql` by running `apt install mysql-client`');
+        }
+
+        // Prepara db dump file
         $dump = $this->argument('dump') ?: storage_path('dump.sql');
 
         if (!file_exists($dump)) {
-            throw new \Exception('Dump file for import not exists');
+            throw new \Exception('Dump file for import not exist');
         }
 
         // Get database name either from passed argument (if any)
@@ -55,43 +62,44 @@ class DbImportDumpCommand extends Command
         })();
 
         //
-        // What if db exists? .. or not? Dive
+        // What do to if db exists?
+        // .. or what to do if not?
         //
 
         if ($this->dbHandler()->databaseExists($database)) {
             $message = "Database '$database' exist. What should we do:";
             $choices = [
-                'Oh, I changed my mind, I dont want to import dump for now',
-                'Yeah, import dump over',
-                'Drop database (!!!CaUtIoN!!) and than import dump',
+                'I changed my mind, I don`t want to import dump',
+                "Import dump over existing database `$database`",
+                "Recreate `$database` database (!!! CAUTION !!!) and than import dump",
             ];
 
             $choice = $this->choice($message, $choices, 0);
 
-            if ($choice == 0) {
+            if ($choice == $choices[0]) {
                 return $this->line('Command aborted');
             }
 
-            if ($choice == 2) {
-                $this->dbHandler()->createDatabase($database);
+            if ($choice == $choices[2]) {
                 $this->dbHandler()->dropDatabase($database);
+                $this->dbHandler()->createDatabase($database);
             }
 
-            // If dump is 1 we'll do nothing
+            // If choice is 1 we'll do nothing
         } else {
             $message = "Database '$database' not exist. What should we do:";
             $choices = [
-                'Oh, I changed my mind, I dont want to import dump for now',
-                "Yeah, create '$database' and import dump over",
+                'Oh, I changed my mind, I don`t want to import dump for now',
+                "Yeah, create database '$database' and import dump",
             ];
 
             $choice = $this->choice($message, $choices, 0);
 
-            if ($choice == 0) {
+            if ($choice == $choices[0]) {
                 return $this->line('Command aborted');
             }
 
-            if ($choice == 1) {
+            if ($choice == $choices[1]) {
                 $this->dbHandler()->createDatabase($database);
             }
         }
@@ -105,7 +113,7 @@ class DbImportDumpCommand extends Command
         $database = env('DB_DATABASE');
         $host = env('DB_HOST');
 
-        $command = "mysql -h $host -u$user -p$password $database < $choice";
+        $command = "mysql -h $host -u$user -p$password $database < $dump";
 
         $this->consoleHandler()->executeCommand($command);
 
