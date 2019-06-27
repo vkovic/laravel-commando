@@ -16,7 +16,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: laravel_commandos
     ports:
-      - 3306:3306
+      - ${DOCKER_MYSQL_PORT}:3306
 
   composer:
     image: composer:1.8
