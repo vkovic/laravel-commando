@@ -3,13 +3,13 @@
 namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
+use Vkovic\LaravelCommandos\Console\FormatOutput;
 use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
-use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\AbstractDbException;
 use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
 class DbDropCommand extends Command
 {
-    use WithDbHandler;
+    use WithDbHandler, FormatOutput;
 
     /**
      * Database operations handler
@@ -49,8 +49,14 @@ class DbDropCommand extends Command
             return config("database.connections.$default.database");
         })();
 
+        // Check if db exists
         if (!$this->dbHandler()->databaseExists($database)) {
-            return $this->warn("Database `$database` doesn`t exist");
+            return $this->skipLine()->warn("Database `$database` doesn`t exist");
+        }
+
+        // Confirm
+        if (!$this->confirm("Do you really wish to drop `$database` database?")) {
+            return $this->line('Command aborted');
         }
 
         $this->dbHandler()->dropDatabase($database);
