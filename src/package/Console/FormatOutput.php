@@ -34,6 +34,8 @@ trait FormatOutput
      */
     public function __destruct()
     {
-        $this->skipLine();
+        if ($this->output !== null) {
+            $this->skipLine();
+        }
     }
 }
