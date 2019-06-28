@@ -13,6 +13,6 @@ class LinuxHandler extends AbstractConsoleHandler
 
     public function executeCommand(string $command): string
     {
-        return exec($command);
+        return (string) shell_exec($command);
     }
 }
