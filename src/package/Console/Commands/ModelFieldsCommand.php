@@ -4,11 +4,12 @@ namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
+use Vkovic\LaravelCommandos\Console\FormatOutput;
 use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
 class ModelFieldsCommand extends Command
 {
-    use WithDbHandler;
+    use WithDbHandler, FormatOutput;
 
     /**
      * The name and signature of the console command.
@@ -36,6 +37,11 @@ class ModelFieldsCommand extends Command
         $default = config('database.default');
         $database = config("database.connections.$default.database");
         $modelClass = 'App\\' . $this->argument('model');
+
+        if (!class_exists($modelClass)) {
+            return $this->skipLine()->warn("Model `$modelClass` doesn`t exist");
+        }
+
         /** @var Model $model */
         $model = new $modelClass;
         $casts = $model->getCasts();
