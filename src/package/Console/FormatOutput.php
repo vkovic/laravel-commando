@@ -5,8 +5,8 @@ namespace Vkovic\LaravelCommandos\Console;
 trait FormatOutput
 {
     /**
-     * Force all output to be one space from beginning of the screen
-     * for nicer output
+     * Write line but
+     * force all output to be one space from beginning of the screen for nicer output
      *
      * @param      $string
      * @param null $style
@@ -15,6 +15,22 @@ trait FormatOutput
     public function line($string, $style = null, $verbosity = null)
     {
         parent::line(' ' . $string . ' ', $style, $verbosity);
+    }
+
+    /**
+     * Renders table but
+     * add empty line before table renders
+     *
+     * @param        $headers
+     * @param        $rows
+     * @param string $tableStyle
+     * @param array  $columnStyles
+     */
+    public function table($headers, $rows, $tableStyle = 'default', array $columnStyles = [])
+    {
+        $this->skipLine();
+
+        parent::table($headers, $rows, $tableStyle, $columnStyles);
     }
 
     /**
