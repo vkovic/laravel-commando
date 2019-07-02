@@ -12,7 +12,17 @@ class DbSummonCommandTest extends TestCase
     /**
      * @test
      */
-    public function it_can_perform_summon()
+    public function it_returns_255_on_user_abort()
+    {
+        $this->artisan('db:summon')
+            ->expectsQuestion('Do you really wish to continue?', false)
+            ->assertExitCode(255);
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_0_when_db_summoned()
     {
         // Mock db handler
         $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
@@ -28,7 +38,7 @@ class DbSummonCommandTest extends TestCase
         });
 
         $this->artisan('db:summon')
-            ->expectsOutput('Done')
+            ->expectsQuestion('Do you really wish to continue?', true)
             ->assertExitCode(0);
     }
 }

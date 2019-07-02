@@ -3,12 +3,11 @@
 namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
-use Vkovic\LaravelCommandos\Console\FormatOutput;
 use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
 class DbCreateCommand extends Command
 {
-    use WithDbHandler, FormatOutput;
+    use WithDbHandler;
 
     /**
      * The name and signature of the console command.
@@ -32,20 +31,17 @@ class DbCreateCommand extends Command
      */
     public function handle()
     {
-        // Get database name either from passed argument (if any)
-        // or from default database configuration
-        $database = $this->argument('database') ?: (function () {
-            $default = config('database.default');
-
-            return config("database.connections.$default.database");
-        })();
+        $database = $this->argument('database')
+            ?: config('database.connections.' . config('database.default') . '.database');
 
         if ($this->dbHandler()->databaseExists($database)) {
-            return $this->skipLine()->warn("Database `$database` exists");
+            $this->output->warning("Database `$database` exists");
+
+            return 1;
         }
 
         $this->dbHandler()->createDatabase($database);
 
-        $this->skipLine()->info("Database `$database` created successfully");
+        $this->output->success("Database `$database` created successfully");
     }
 }

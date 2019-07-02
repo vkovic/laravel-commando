@@ -3,13 +3,12 @@
 namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
-use Vkovic\LaravelCommandos\Console\FormatOutput;
 use Vkovic\LaravelCommandos\Handlers\Console\WithConsoleHandler;
 use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
 class DbImportDumpCommand extends Command
 {
-    use WithDbHandler, WithConsoleHandler, FormatOutput;
+    use WithDbHandler, WithConsoleHandler;
 
     /**
      * The name and signature of the console command.
@@ -18,7 +17,7 @@ class DbImportDumpCommand extends Command
      */
     protected $signature = 'db:import-dump 
                                 {database? : Which database to use as import destination. Db from env will be used if none passed}
-                                {--dir= : Directory to scan for sql dumps. If omitted default filesystem dir will be used}
+                                {--dir=? : Directory to scan for sql dumps. If omitted default filesystem dir will be used}
                            ';
 
     /**
@@ -36,9 +35,10 @@ class DbImportDumpCommand extends Command
 
         // Check if requirements are met
         if (!$this->consoleHandler()->commandExists('mysql')) {
-            $this->warn('`mysql` program required');
+            $this->output->warning('`mysql` program required');
+            $this->output->note('e.g. on Ubuntu you can install `mysql` by running `apt install mysql-client`');
 
-            return $this->info('e.g. on Ubuntu you can install `mysql` by running `apt install mysql-client`');
+            return 1;
         }
 
         //
@@ -54,23 +54,19 @@ class DbImportDumpCommand extends Command
         }
 
         if (empty($dumps)) {
-            $this->warn('There`s no .sql dump files available at ' . $dir);
+            $this->output->warning('There`s no .sql dump files available at ' . $dir);
+            $this->output->note('You can specify custom dir with `--dir` option');
 
-            return $this->warn('You can specify custom dir with `--dir` option');
+            return 2;
         }
 
         // Show choices ordered by dump file name
         asort($dumps);
-        $this->skipLine()->line('Lookup dir: ' . $dir);
+        $this->output->text('Lookup dir: ' . $dir);
         $dump = $this->choice('Choose dump to be imported:', array_reverse($dumps), 0);
 
-        // Get database name either from passed argument (if any)
-        // or from default database configuration
-        $database = $this->argument('database') ?: (function () {
-            $default = config('database.default');
-
-            return config("database.connections.$default.database");
-        })();
+        $database = $this->argument('database')
+            ?: config('database.connections.' . config('database.default') . '.database');
 
         //
         // What do to if db exists?
@@ -88,7 +84,9 @@ class DbImportDumpCommand extends Command
             $choice = $this->choice($message, $choices, 0);
 
             if ($choice == $choices[0]) {
-                return $this->line('Command aborted');
+                $this->output->note('Command aborted');
+
+                return 255;
             }
 
             if ($choice == $choices[2]) {
@@ -107,7 +105,9 @@ class DbImportDumpCommand extends Command
             $choice = $this->choice($message, $choices, 0);
 
             if ($choice == $choices[0]) {
-                return $this->line('Command aborted');
+                $this->output->note('Command aborted');
+
+                return 255;
             }
 
             if ($choice == $choices[1]) {
@@ -129,6 +129,6 @@ class DbImportDumpCommand extends Command
 
         $this->consoleHandler()->executeCommand($command);
 
-        $this->info('Done');
+        $this->output->success('Dump file imported');
     }
 }

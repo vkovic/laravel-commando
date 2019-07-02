@@ -30,6 +30,6 @@ class LinuxConsoleHandlerTest extends TestCase
 
         $output = $linuxHandler->executeCommand('ls /dev/null');
 
-        $this->assertEquals('/dev/null', $output);
+        $this->assertContains('/dev/null', $output);
     }
 }

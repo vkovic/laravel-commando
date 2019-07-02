@@ -11,26 +11,21 @@ class DbCreateCommandTest extends TestCase
     /**
      * @test
      */
-    public function it_follows_flow()
+    public function it_returns_1_when_db_exists()
     {
-        //
-        // Default db | argument `database` omitted
-        //
-
-        $database = config()->get('database.connections.mysql.database');
-
         $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
             $mock->shouldReceive('databaseExists')->once()->andReturn(true);
         });
 
         $this->artisan('db:create')
-            ->expectsOutput("Database `$database` exists")
-            ->assertExitCode(0);
+            ->assertExitCode(1);
+    }
 
-        //
-        // Non existent db | argument `database` present
-        //
-
+    /**
+     * @test
+     */
+    public function it_returns_0_when_db_created()
+    {
         $database = 'non_existent_db';
 
         $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
@@ -39,7 +34,6 @@ class DbCreateCommandTest extends TestCase
         });
 
         $this->artisan('db:create', ['database' => $database])
-            ->expectsOutput("Database `$database` created successfully")
             ->assertExitCode(0);
     }
 }

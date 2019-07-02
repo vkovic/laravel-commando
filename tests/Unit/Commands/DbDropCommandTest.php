@@ -11,12 +11,37 @@ class DbDropCommandTest extends TestCase
     /**
      * @test
      */
-    public function it_follows_flow()
+    public function it_returns_1_when_db_not_exist()
     {
-        //
-        // Default db | argument `database` omitted
-        //
+        $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
+            $mock->shouldReceive('databaseExists')->once()->andReturn(false);
+        });
 
+        $this->artisan('db:drop')
+            ->assertExitCode(1);
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_255_on_user_abort()
+    {
+        $database = config()->get('database.connections.mysql.database');
+
+        $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
+            $mock->shouldReceive('databaseExists')->once()->andReturn(true);
+        });
+
+        $this->artisan('db:drop')
+            ->expectsQuestion("Do you really wish to drop `$database` database?", false)
+            ->assertExitCode(255);
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_0_when_db_dropped()
+    {
         $database = config()->get('database.connections.mysql.database');
 
         $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
@@ -25,21 +50,7 @@ class DbDropCommandTest extends TestCase
         });
 
         $this->artisan('db:drop')
-            ->expectsOutput("Database `$database` dropped successfully")
-            ->assertExitCode(0);
-
-        //
-        // Non existent db | argument `database` present
-        //
-
-        $database = 'non_existent_db';
-
-        $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
-            $mock->shouldReceive('databaseExists')->once()->andReturn(false);
-        });
-
-        $this->artisan('db:drop', ['database' => $database])
-            ->expectsOutput("Database `$database` doesn`t exist")
+            ->expectsQuestion("Do you really wish to drop `$database` database?", true)
             ->assertExitCode(0);
     }
 }

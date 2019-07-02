@@ -2,13 +2,12 @@
 
 namespace Vkovic\LaravelCommandos\Handlers\Artisan;
 
+use Illuminate\Support\Facades\Artisan;
+
 class ArtisanHandler extends AbstractArtisanHandler
 {
     public function call($command, array $parameters = [], $outputBuffer = null)
     {
-        // TODO
-        // Call artisan command
-
-        dump('todo call artisan command');
+        return Artisan::call($command, $parameters, $outputBuffer);
     }
 }

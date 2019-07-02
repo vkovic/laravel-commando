@@ -4,13 +4,12 @@ namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Vkovic\LaravelCommandos\Console\FormatOutput;
 use Vkovic\LaravelCommandos\Handlers\Console\WithConsoleHandler;
 use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
 class DbDumpCommand extends Command
 {
-    use WithConsoleHandler, WithDbHandler, FormatOutput;
+    use WithConsoleHandler, WithDbHandler;
 
     /**
      * The name and signature of the console command.
@@ -41,7 +40,9 @@ class DbDumpCommand extends Command
             ?: config('filesystems.disks.' . config('filesystems.default') . '.root');
 
         if (!$this->dbHandler()->databaseExists($database)) {
-            return $this->skipLine()->warn("Database `$database` doesn`t exist");
+            $this->output->warning("Database `$database` doesn`t exist");
+
+            return 1;
         }
 
         $user = env('DB_USERNAME');
@@ -59,7 +60,7 @@ class DbDumpCommand extends Command
 
         $this->consoleHandler()->executeCommand($command);
 
-        $this->skipLine()->info("Database `$database` dumped");
-        $this->line("Destination: `$destination`");
+        $this->output->success("Database `$database` dumped");
+        $this->output->text("Destination: `$destination`");
     }
 }

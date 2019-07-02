@@ -3,13 +3,12 @@
 namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
-use Vkovic\LaravelCommandos\Console\FormatOutput;
 use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
 use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
 class DbDropCommand extends Command
 {
-    use WithDbHandler, FormatOutput;
+    use WithDbHandler;
 
     /**
      * Database operations handler
@@ -41,26 +40,25 @@ class DbDropCommand extends Command
      */
     public function handle()
     {
-        // Get database name either from passed argument (if any)
-        // or from default database configuration
-        $database = $this->argument('database') ?: (function () {
-            $default = config('database.default');
-
-            return config("database.connections.$default.database");
-        })();
+        $database = $this->argument('database')
+            ?: config('database.connections.' . config('database.default') . '.database');
 
         // Check if db exists
         if (!$this->dbHandler()->databaseExists($database)) {
-            return $this->skipLine()->warn("Database `$database` doesn`t exist");
+            $this->output->warning("Database `$database` doesn`t exist");
+
+            return 1;
         }
 
         // Confirm
         if (!$this->confirm("Do you really wish to drop `$database` database?")) {
-            return $this->line('Command aborted');
+            $this->output->note('Command aborted');
+
+            return 255;
         }
 
         $this->dbHandler()->dropDatabase($database);
 
-        $this->info("Database `$database` dropped successfully");
+        $this->output->success("Database `$database` dropped successfully");
     }
 }
