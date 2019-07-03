@@ -3,14 +3,11 @@
 namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
-use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
+use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
 class DbExistsCommand extends Command
 {
-    /**
-     * @var AbstractDbHandler
-     */
-    protected $dbHandler;
+    use WithDbHandler;
 
     /**
      * The name and signature of the console command.
@@ -27,13 +24,6 @@ class DbExistsCommand extends Command
      */
     protected $description = 'Check if database exists';
 
-    public function __construct(AbstractDbHandler $dbHandler)
-    {
-        parent::__construct();
-
-        $this->dbHandler = $dbHandler;
-    }
-
     /**
      * Execute the console command.
      */
@@ -42,7 +32,7 @@ class DbExistsCommand extends Command
         $database = $this->argument('database')
             ?: config('database.connections.' . config('database.default') . '.database');
 
-        if ($this->dbHandler->databaseExists($database)) {
+        if ($this->dbHandler()->databaseExists($database)) {
             $this->output->note("Database `$database` exists");
         } else {
             $this->output->note("Database `$database` doesn`t exist");

@@ -4,20 +4,12 @@ namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
-use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
-use Vkovic\LaravelCommandos\Handlers\Helper;
+use Vkovic\LaravelCommandos\Handlers\Database\WithdbHandler;
+use Vkovic\LaravelCommandos\Handlers\WithHelper;
 
 class ModelFieldsCommand extends Command
 {
-    /**
-     * @var AbstractDbHandler
-     */
-    protected $dbHandler;
-
-    /**
-     * @var Helper
-     */
-    protected $helper;
+    use WithHelper, WithdbHandler;
 
     /**
      * The name and signature of the console command.
@@ -35,14 +27,6 @@ class ModelFieldsCommand extends Command
      */
     protected $description = 'Show model fields info';
 
-    public function __construct(AbstractDbHandler $dbHandler, Helper $helper)
-    {
-        parent::__construct();
-
-        $this->dbHandler = $dbHandler;
-        $this->helper = $helper;
-    }
-
     public function handle()
     {
         $database = config('database.connections.' . config('database.default') . '.database');
@@ -50,7 +34,7 @@ class ModelFieldsCommand extends Command
         // Take model from passed argument
         // or list all models within the app
         if (($modelClass = $this->argument('model')) === null) {
-            $allModels = $this->helper->getAllModelClasses();
+            $allModels = $this->helper()->getAllModelClasses();
             $modelClass = $this->choice('Choose model to show the fields from:', $allModels);
         }
 
@@ -69,7 +53,7 @@ class ModelFieldsCommand extends Command
         $guarded = $model->getGuarded();
 
         // Array with: name, position, type, nullable, default_value
-        $columns = $this->dbHandler->getColumns($database, $model->getTable());
+        $columns = $this->dbHandler()->getColumns($database, $model->getTable());
 
         $data = [];
         foreach ($columns as $i => $column) {

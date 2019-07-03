@@ -4,21 +4,12 @@ namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Vkovic\LaravelCommandos\Handlers\Console\AbstractConsoleHandler;
-use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
-
+use Vkovic\LaravelCommandos\Handlers\Console\WithConsoleHandler;
+use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
 class DbDumpCommand extends Command
 {
-    /**
-     * @var AbstractDbHandler
-     */
-    protected $dbHandler;
-
-    /**
-     * @var AbstractConsoleHandler
-     */
-    protected $consoleHandler;
+    use WithDbHandler, WithConsoleHandler;
 
     /**
      * The name and signature of the console command.
@@ -36,14 +27,6 @@ class DbDumpCommand extends Command
      */
     protected $description = 'Dump database to file';
 
-    public function __construct(AbstractDbHandler $dbHandler, AbstractConsoleHandler $consoleHandler)
-    {
-        parent::__construct();
-
-        $this->dbHandler = $dbHandler;
-        $this->consoleHandler = $consoleHandler;
-    }
-
     public function handle()
     {
         // TODO
@@ -56,7 +39,7 @@ class DbDumpCommand extends Command
         $dir = $this->option('dir')
             ?: config('filesystems.disks.' . config('filesystems.default') . '.root');
 
-        if (!$this->dbHandler->databaseExists($database)) {
+        if (!$this->dbHandler()->databaseExists($database)) {
             $this->output->warning("Database `$database` doesn`t exist");
 
             return 1;
@@ -75,9 +58,9 @@ class DbDumpCommand extends Command
 
         $command = "mysqldump -h $host -u$user -p$password $database $removeDefiner $removeDbPrefix > $destination";
 
-        $this->consoleHandler->executeCommand($command);
+        $this->consoleHandler()->executeCommand($command);
 
-        $this->output->success("Database `$database` dumped");
+        $this->output->success("Database `$database` dumped successfully");
         $this->output->text("Destination: `$destination`");
         $this->output->newLine();
     }

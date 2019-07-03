@@ -4,20 +4,11 @@ namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
-use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
-use Vkovic\LaravelCommandos\Handlers\Helper;
+use Vkovic\LaravelCommandos\Handlers\WithHelper;
 
 class ModelListCommand extends Command
 {
-    /**
-     * @var AbstractDbHandler
-     */
-    protected $dbHandler;
-
-    /**
-     * @var Helper
-     */
-    protected $helper;
+    use WithHelper;
 
     /**
      * The name and signature of the console command.
@@ -31,19 +22,11 @@ class ModelListCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Show all models and tables they use';
-
-    public function __construct(AbstractDbHandler $dbHandler, Helper $helper)
-    {
-        parent::__construct();
-
-        $this->dbHandler = $dbHandler;
-        $this->helper = $helper;
-    }
+    protected $description = 'Show all models, tables they use and relevant record counts';
 
     public function handle()
     {
-        $allModels = $this->helper->getAllModelClasses();
+        $allModels = $this->helper()->getAllModelClasses();
 
         $rows = [];
         $previousNamespace = '';

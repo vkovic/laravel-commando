@@ -38,16 +38,23 @@ class LaravelCommandosServiceProvider extends ServiceProvider
     protected function registerCommands()
     {
         $this->commands([
+            //
             // Database related commands
+            //
+
             DbCreateCommand::class,
-            DbExistsCommand::class,
             DbDropCommand::class,
             DbDumpCommand::class,
+            DbExistsCommand::class,
             DbImportDumpCommand::class,
             DbSummonCommand::class,
+
+            //
             // Model commands
+            //
+
             ModelFieldsCommand::class,
-            ModelListCommand::class
+            ModelListCommand::class,
         ]);
     }
 
@@ -56,8 +63,8 @@ class LaravelCommandosServiceProvider extends ServiceProvider
      */
     protected function registerProviders()
     {
-        $this->app->register(DbHandlerServiceProvider::class);
         $this->app->register(ConsoleHandlerServiceProvider::class);
+        $this->app->register(DbHandlerServiceProvider::class);
         $this->app->register(HelperServiceProvider::class);
     }
 }

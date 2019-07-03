@@ -3,14 +3,11 @@
 namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
-use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
+use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
 
 class DbCreateCommand extends Command
 {
-    /**
-     * @var AbstractDbHandler
-     */
-    protected $dbHandler;
+    use WithDbHandler;
 
     /**
      * The name and signature of the console command.
@@ -27,13 +24,6 @@ class DbCreateCommand extends Command
      */
     protected $description = 'Create db defined in .env file or with custom name if argument passed';
 
-    public function __construct(AbstractDbHandler $dbHandler)
-    {
-        parent::__construct();
-
-        $this->dbHandler = $dbHandler;
-    }
-
     /**
      * Execute the console command.
      *
@@ -44,13 +34,13 @@ class DbCreateCommand extends Command
         $database = $this->argument('database')
             ?: config('database.connections.' . config('database.default') . '.database');
 
-        if ($this->dbHandler->databaseExists($database)) {
+        if ($this->dbHandler()->databaseExists($database)) {
             $this->output->warning("Database `$database` exists");
 
             return 1;
         }
 
-        $this->dbHandler->createDatabase($database);
+        $this->dbHandler()->createDatabase($database);
 
         $this->output->success("Database `$database` created successfully");
     }
