@@ -3,13 +3,20 @@
 namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Console\ConfirmableTrait;
-use Vkovic\LaravelCommandos\Handlers\Artisan\WithArtisanHandler;
-use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
+use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
+use Vkovic\LaravelCommandos\Handlers\Helper;
 
 class DbSummonCommand extends Command
 {
-    use WithArtisanHandler, WithDbHandler, ConfirmableTrait;
+    /**
+     * @var AbstractDbHandler
+     */
+    protected $dbHandler;
+
+    /**
+     * @var Helper
+     */
+    protected $appHandler;
 
     protected $signature = 'db:summon';
 
@@ -19,6 +26,14 @@ class DbSummonCommand extends Command
      * @var string
      */
     protected $description = 'Drop default database, than perform migrate followed with the seed';
+
+    public function __construct(AbstractDbHandler $dbHandler, Helper $appHandler)
+    {
+        parent::__construct();
+
+        $this->dbHandler = $dbHandler;
+        $this->appHandler = $appHandler;
+    }
 
     public function handle()
     {
@@ -42,14 +57,14 @@ class DbSummonCommand extends Command
             return 255;
         }
 
-        if ($this->dbHandler()->databaseExists($database)) {
-            $this->dbHandler()->dropDatabase($database);
+        if ($this->dbHandler->databaseExists($database)) {
+            $this->dbHandler->dropDatabase($database);
         }
 
-        $this->dbHandler()->createDatabase($database);
+        $this->dbHandler->createDatabase($database);
 
-        $this->artisanHandler()->call('migrate');
-        $this->artisanHandler()->call('db:seed');
+        $this->appHandler->artisanCall('migrate');
+        $this->appHandler->artisanCall('db:seed');
 
         $this->output->success("Database `$database` summoned successfully");
     }

@@ -3,12 +3,20 @@
 namespace Vkovic\LaravelCommandos\Console\Commands;
 
 use Illuminate\Console\Command;
-use Vkovic\LaravelCommandos\Handlers\Console\WithConsoleHandler;
-use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
+use Vkovic\LaravelCommandos\Handlers\Console\AbstractConsoleHandler;
+use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
 
 class DbImportDumpCommand extends Command
 {
-    use WithDbHandler, WithConsoleHandler;
+    /**
+     * @var AbstractDbHandler
+     */
+    protected $dbHandler;
+
+    /**
+     * @var AbstractConsoleHandler
+     */
+    protected $consoleHandler;
 
     /**
      * The name and signature of the console command.
@@ -27,6 +35,14 @@ class DbImportDumpCommand extends Command
      */
     protected $description = 'Import dump to database (env default or passed one)';
 
+    public function __construct(AbstractDbHandler $dbHandler, AbstractConsoleHandler $consoleHandler)
+    {
+        parent::__construct();
+
+        $this->dbHandler = $dbHandler;
+        $this->consoleHandler = $consoleHandler;
+    }
+
     public function handle()
     {
         // TODO
@@ -34,7 +50,7 @@ class DbImportDumpCommand extends Command
         // Also add easy gzip fn
 
         // Check if requirements are met
-        if (!$this->consoleHandler()->commandExists('mysql')) {
+        if (!$this->consoleHandler->commandExists('mysql')) {
             $this->output->warning('`mysql` program required');
             $this->output->note('e.g. on Ubuntu you can install `mysql` by running `apt install mysql-client`');
 
@@ -73,7 +89,7 @@ class DbImportDumpCommand extends Command
         // .. or what to do if not?
         //
 
-        if ($this->dbHandler()->databaseExists($database)) {
+        if ($this->dbHandler->databaseExists($database)) {
             $message = "Database '$database' exist. What should we do:";
             $choices = [
                 'I changed my mind, I don`t want to import dump',
@@ -90,8 +106,8 @@ class DbImportDumpCommand extends Command
             }
 
             if ($choice == $choices[2]) {
-                $this->dbHandler()->dropDatabase($database);
-                $this->dbHandler()->createDatabase($database);
+                $this->dbHandler->dropDatabase($database);
+                $this->dbHandler->createDatabase($database);
             }
 
             // If choice is 1 we'll do nothing
@@ -111,7 +127,7 @@ class DbImportDumpCommand extends Command
             }
 
             if ($choice == $choices[1]) {
-                $this->dbHandler()->createDatabase($database);
+                $this->dbHandler->createDatabase($database);
             }
         }
 
@@ -127,8 +143,8 @@ class DbImportDumpCommand extends Command
         $dump = $dir . DIRECTORY_SEPARATOR . $dump;
         $command = "mysql -h $host -u$user -p$password $database < $dump";
 
-        $this->consoleHandler()->executeCommand($command);
+        $this->consoleHandler->executeCommand($command);
 
-        $this->output->success('Dump file imported');
+        $this->output->success('Dump file imported successfully');
     }
 }

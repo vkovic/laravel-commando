@@ -56,6 +56,6 @@ class LaravelCommandosServiceProvider extends ServiceProvider
     {
         $this->app->register(DbHandlerServiceProvider::class);
         $this->app->register(ConsoleHandlerServiceProvider::class);
-        $this->app->register(ArtisanHandlerServiceProvider::class);
+        $this->app->register(HelperServiceProvider::class);
     }
 }

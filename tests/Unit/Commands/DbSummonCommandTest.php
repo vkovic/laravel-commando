@@ -3,8 +3,8 @@
 namespace Vkovic\LaravelCommandos\Test\Unit\Commands;
 
 use Mockery\MockInterface;
-use Vkovic\LaravelCommandos\Handlers\Artisan\AbstractArtisanHandler;
 use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
+use Vkovic\LaravelCommandos\Handlers\Helper;
 use Vkovic\LaravelCommandos\Test\TestCase;
 
 class DbSummonCommandTest extends TestCase
@@ -32,9 +32,9 @@ class DbSummonCommandTest extends TestCase
         });
 
         // Mock artisan handler
-        $this->mock(AbstractArtisanHandler::class, function (MockInterface $mock) {
-            $mock->shouldReceive('call')->once()->with('migrate');
-            $mock->shouldReceive('call')->once()->with('db:seed');
+        $this->mock(Helper::class, function (MockInterface $mock) {
+            $mock->shouldReceive('artisanCall')->once()->with('migrate');
+            $mock->shouldReceive('artisanCall')->once()->with('db:seed');
         });
 
         $this->artisan('db:summon')
