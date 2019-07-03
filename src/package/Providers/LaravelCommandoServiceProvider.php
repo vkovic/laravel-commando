@@ -1,18 +1,18 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Providers;
+namespace Vkovic\LaravelCommando\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Vkovic\LaravelCommandos\Console\Commands\DbCreateCommand;
-use Vkovic\LaravelCommandos\Console\Commands\DbDropCommand;
-use Vkovic\LaravelCommandos\Console\Commands\DbDumpCommand;
-use Vkovic\LaravelCommandos\Console\Commands\DbExistsCommand;
-use Vkovic\LaravelCommandos\Console\Commands\DbImportDumpCommand;
-use Vkovic\LaravelCommandos\Console\Commands\DbSummonCommand;
-use Vkovic\LaravelCommandos\Console\Commands\ModelFieldsCommand;
-use Vkovic\LaravelCommandos\Console\Commands\ModelListCommand;
+use Vkovic\LaravelCommando\Console\Commands\DbCreateCommand;
+use Vkovic\LaravelCommando\Console\Commands\DbDropCommand;
+use Vkovic\LaravelCommando\Console\Commands\DbDumpCommand;
+use Vkovic\LaravelCommando\Console\Commands\DbExistsCommand;
+use Vkovic\LaravelCommando\Console\Commands\DbImportDumpCommand;
+use Vkovic\LaravelCommando\Console\Commands\DbSummonCommand;
+use Vkovic\LaravelCommando\Console\Commands\ModelFieldsCommand;
+use Vkovic\LaravelCommando\Console\Commands\ModelListCommand;
 
-class LaravelCommandosServiceProvider extends ServiceProvider
+class LaravelCommandoServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -28,7 +28,7 @@ class LaravelCommandosServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(src_path('config/laravel-commandos.php'), 'laravel-commandos');
+        $this->mergeConfigFrom(src_path('config/laravel-commando.php'), 'laravel-commando');
 
         $this->registerProviders();
 

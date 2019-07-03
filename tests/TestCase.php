@@ -1,10 +1,10 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Test;
+namespace Vkovic\LaravelCommando\Test;
 
 use Dotenv\Dotenv;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
-use Vkovic\LaravelCommandos\Providers\LaravelCommandosServiceProvider;
+use Vkovic\LaravelCommando\Providers\LaravelCommandoServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
@@ -18,7 +18,7 @@ class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app)
     {
         return [
-            LaravelCommandosServiceProvider::class
+            LaravelCommandoServiceProvider::class
         ];
     }
 

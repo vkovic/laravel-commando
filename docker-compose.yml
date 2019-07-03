@@ -14,7 +14,7 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel_commandos
+      MYSQL_DATABASE: laravel_commando
     ports:
       - ${DOCKER_MYSQL_PORT}:3306
 

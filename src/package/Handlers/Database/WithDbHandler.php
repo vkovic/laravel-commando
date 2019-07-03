@@ -1,6 +1,6 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Handlers\Database;
+namespace Vkovic\LaravelCommando\Handlers\Database;
 
 trait WithDbHandler
 {

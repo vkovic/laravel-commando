@@ -1,6 +1,6 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Console\Commands;
+namespace Vkovic\LaravelCommando\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;

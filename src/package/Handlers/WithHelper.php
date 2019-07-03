@@ -1,6 +1,6 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Handlers;
+namespace Vkovic\LaravelCommando\Handlers;
 
 trait WithHelper
 {

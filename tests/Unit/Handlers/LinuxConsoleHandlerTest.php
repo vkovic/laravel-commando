@@ -1,9 +1,9 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Test\Unit\Handlers;
+namespace Vkovic\LaravelCommando\Test\Unit\Handlers;
 
-use Vkovic\LaravelCommandos\Handlers\Console\LinuxHandler;
-use Vkovic\LaravelCommandos\Test\TestCase;
+use Vkovic\LaravelCommando\Handlers\Console\LinuxHandler;
+use Vkovic\LaravelCommando\Test\TestCase;
 
 class LinuxConsoleHandlerTest extends TestCase
 {

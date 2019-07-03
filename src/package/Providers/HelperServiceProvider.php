@@ -1,9 +1,9 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Providers;
+namespace Vkovic\LaravelCommando\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Vkovic\LaravelCommandos\Handlers\Helper;
+use Vkovic\LaravelCommando\Handlers\Helper;
 
 class HelperServiceProvider extends ServiceProvider
 {

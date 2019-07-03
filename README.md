@@ -1,9 +1,9 @@
-# Laravel Commandos
+# Laravel Commando
 
-[![Build](https://api.travis-ci.org/vkovic/laravel-commandos.svg?branch=master)](https://travis-ci.org/vkovic/laravel-commandos)
-[![Downloads](https://poser.pugx.org/vkovic/laravel-commandos/downloads)](https://packagist.org/packages/vkovic/laravel-commandos)
-[![Stable](https://poser.pugx.org/vkovic/laravel-commandos/v/stable)](https://packagist.org/packages/vkovic/laravel-commandos)
-[![License](https://poser.pugx.org/vkovic/laravel-commandos/license)](https://packagist.org/packages/vkovic/laravel-commandos)
+[![Build](https://api.travis-ci.org/vkovic/laravel-commando.svg?branch=master)](https://travis-ci.org/vkovic/laravel-commando)
+[![Downloads](https://poser.pugx.org/vkovic/laravel-commando/downloads)](https://packagist.org/packages/vkovic/laravel-commando)
+[![Stable](https://poser.pugx.org/vkovic/laravel-commando/v/stable)](https://packagist.org/packages/vkovic/laravel-commando)
+[![License](https://poser.pugx.org/vkovic/laravel-commando/license)](https://packagist.org/packages/vkovic/laravel-commando)
 
 ### Title
 
@@ -26,7 +26,7 @@ The package is compatible with Laravel versions `5.5`, `5.6`, `5.7` and `5.8`, a
 Install the package via composer:
 
 ```bash
-composer require vkovic/laravel-commandos
+composer require vkovic/laravel-commando
 ```
 
 ## Usage

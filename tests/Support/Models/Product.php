@@ -1,6 +1,6 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Test\Support\Models;
+namespace Vkovic\LaravelCommando\Test\Support\Models;
 
 class Product extends \Illuminate\Database\Eloquent\Model
 {

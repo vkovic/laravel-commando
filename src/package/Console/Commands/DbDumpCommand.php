@@ -1,11 +1,11 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Console\Commands;
+namespace Vkovic\LaravelCommando\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Vkovic\LaravelCommandos\Handlers\Console\WithConsoleHandler;
-use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
+use Vkovic\LaravelCommando\Handlers\Console\WithConsoleHandler;
+use Vkovic\LaravelCommando\Handlers\Database\WithDbHandler;
 
 class DbDumpCommand extends Command
 {

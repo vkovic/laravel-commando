@@ -1,11 +1,11 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Test\Unit\Commands;
+namespace Vkovic\LaravelCommando\Test\Unit\Commands;
 
 use Mockery\MockInterface;
-use Vkovic\LaravelCommandos\Handlers\Database\AbstractDbHandler;
-use Vkovic\LaravelCommandos\Test\Support\Models\Product;
-use Vkovic\LaravelCommandos\Test\TestCase;
+use Vkovic\LaravelCommando\Handlers\Database\AbstractDbHandler;
+use Vkovic\LaravelCommando\Test\Support\Models\Product;
+use Vkovic\LaravelCommando\Test\TestCase;
 
 class ModelFieldsCommandTest extends TestCase
 {

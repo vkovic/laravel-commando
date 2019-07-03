@@ -1,9 +1,9 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Providers;
+namespace Vkovic\LaravelCommando\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Vkovic\LaravelCommandos\Handlers\Console\AbstractConsoleHandler;
+use Vkovic\LaravelCommando\Handlers\Console\AbstractConsoleHandler;
 
 class ConsoleHandlerServiceProvider extends ServiceProvider
 {
@@ -15,11 +15,11 @@ class ConsoleHandlerServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(AbstractConsoleHandler::class, function ($app) {
-            $system = config('laravel-commandos.console.system');
-            $consoleHandlerClass = config('laravel-commandos.console.console_handler.' . $system);
+            $system = config('laravel-commando.console.system');
+            $consoleHandlerClass = config('laravel-commando.console.console_handler.' . $system);
 
             if ($consoleHandlerClass === null) {
-                throw new \Exception('Laravel Commandos console handler must be defined for os: ' . $system);
+                throw new \Exception('Laravel Commando console handler must be defined for os: ' . $system);
             }
 
             // Default Laravel database array config will be directly injected into db handler

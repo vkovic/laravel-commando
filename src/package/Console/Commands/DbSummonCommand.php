@@ -1,10 +1,10 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Console\Commands;
+namespace Vkovic\LaravelCommando\Console\Commands;
 
 use Illuminate\Console\Command;
-use Vkovic\LaravelCommandos\Handlers\Database\WithDbHandler;
-use Vkovic\LaravelCommandos\Handlers\WithHelper;
+use Vkovic\LaravelCommando\Handlers\Database\WithDbHandler;
+use Vkovic\LaravelCommando\Handlers\WithHelper;
 
 class DbSummonCommand extends Command
 {

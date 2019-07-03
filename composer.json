@@ -1,5 +1,5 @@
 {
-  "name": "vkovic/laravel-commandos",
+  "name": "vkovic/laravel-commando",
   "description": "Collection of handy Laravel console commands that almost every project needs",
   "keywords": [
     "laravel",
@@ -15,7 +15,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Vkovic\\LaravelCommandos\\": "src/package"
+      "Vkovic\\LaravelCommando\\": "src/package"
     },
     "files": [
         "src/package/helpers.php"
@@ -23,7 +23,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Vkovic\\LaravelCommandos\\Test\\": "tests"
+      "Vkovic\\LaravelCommando\\Test\\": "tests"
     }
   },
   "require": {
@@ -41,7 +41,7 @@
   "extra": {
       "laravel": {
           "providers": [
-              "Vkovic\\LaravelCommandos\\Providers\\LaravelCommandosServiceProvider"
+              "Vkovic\\LaravelCommando\\Providers\\LaravelCommandoServiceProvider"
           ]
       }
   },

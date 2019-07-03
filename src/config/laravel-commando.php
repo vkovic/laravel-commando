@@ -13,7 +13,7 @@ return [
         // By Laravel defaults, it can be: `sqlite`, `mysql`, `pgsql` and `sqlsrv`.
         // Here, we need to define which handler we want to use for which driver.
         'driver_handler' => [
-            'mysql' => \Vkovic\LaravelCommandos\Handlers\Database\MySqlHandler::class,
+            'mysql' => \Vkovic\LaravelCommando\Handlers\Database\MySqlHandler::class,
             'sqlite' => null,
             'pgsql' => null,
             'sqlsrv' => null,
@@ -27,7 +27,7 @@ return [
     'console' => [
         'system' => 'linux',
         'console_handler' => [
-            'linux' => \Vkovic\LaravelCommandos\Handlers\Console\LinuxHandler::class,
+            'linux' => \Vkovic\LaravelCommando\Handlers\Console\LinuxHandler::class,
             'macos' => null,
             'windows' => null,
         ]

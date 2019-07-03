@@ -1,6 +1,6 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Handlers;
+namespace Vkovic\LaravelCommando\Handlers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Artisan;

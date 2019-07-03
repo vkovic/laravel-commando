@@ -1,6 +1,6 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Handlers\Console;
+namespace Vkovic\LaravelCommando\Handlers\Console;
 
 abstract class AbstractConsoleHandler
 {

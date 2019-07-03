@@ -1,11 +1,11 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Test\Unit\Handlers;
+namespace Vkovic\LaravelCommando\Test\Unit\Handlers;
 
 use PDO;
 use Str;
-use Vkovic\LaravelCommandos\Handlers\Database\MySqlHandler;
-use Vkovic\LaravelCommandos\Test\TestCase;
+use Vkovic\LaravelCommando\Handlers\Database\MySqlHandler;
+use Vkovic\LaravelCommando\Test\TestCase;
 
 class MySqlDbHandlerTest extends TestCase
 {

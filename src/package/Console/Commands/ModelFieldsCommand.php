@@ -1,11 +1,11 @@
 <?php
 
-namespace Vkovic\LaravelCommandos\Console\Commands;
+namespace Vkovic\LaravelCommando\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
-use Vkovic\LaravelCommandos\Handlers\Database\WithdbHandler;
-use Vkovic\LaravelCommandos\Handlers\WithHelper;
+use Vkovic\LaravelCommando\Handlers\Database\WithdbHandler;
+use Vkovic\LaravelCommando\Handlers\WithHelper;
 
 class ModelFieldsCommand extends Command
 {
