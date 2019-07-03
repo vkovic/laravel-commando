@@ -79,5 +79,6 @@ class DbDumpCommand extends Command
 
         $this->output->success("Database `$database` dumped");
         $this->output->text("Destination: `$destination`");
+        $this->output->newLine();
     }
 }
