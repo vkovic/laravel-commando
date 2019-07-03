@@ -25,7 +25,7 @@ class DbImportDumpCommand extends Command
      */
     protected $signature = 'db:import-dump 
                                 {database? : Which database to use as import destination. Db from env will be used if none passed}
-                                {--dir=? : Directory to scan for sql dumps. If omitted default filesystem dir will be used}
+                                {--dir= : Directory to scan for sql dumps. If omitted default filesystem dir will be used}
                            ';
 
     /**
