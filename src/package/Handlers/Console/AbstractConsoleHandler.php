@@ -4,7 +4,17 @@ namespace Vkovic\LaravelCommandos\Handlers\Console;
 
 abstract class AbstractConsoleHandler
 {
-    abstract public function commandExists(string $command): bool;
+    /**
+     * @param string $command
+     *
+     * @return bool
+     */
+    abstract public function commandExists(string $command);
 
-    abstract public function executeCommand(string $command): string;
+    /**
+     * @param string $command
+     *
+     * @return string
+     */
+    abstract public function executeCommand(string $command);
 }

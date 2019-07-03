@@ -4,11 +4,26 @@ namespace Vkovic\LaravelCommandos\Handlers\Database;
 
 abstract class AbstractDbHandler
 {
-    abstract public function databaseExists($database): bool;
+    /**
+     * @param string $database
+     *
+     * @return bool
+     */
+    abstract public function databaseExists($database);
 
-    abstract public function createDatabase($database): void;
+    /**
+     * @param $database
+     *
+     * @return void
+     */
+    abstract public function createDatabase($database);
 
-    abstract public function dropDatabase($database): void;
+    /**
+     * @param $database
+     *
+     * @return void
+     */
+    abstract public function dropDatabase($database);
 
     /**
      * @param $database
@@ -16,5 +31,5 @@ abstract class AbstractDbHandler
      *
      * @return array Example. Array with: `name`, `position`, `type`, `nullable`, `default_value`
      */
-    abstract public function getColumns($database, $table): array;
+    abstract public function getColumns($database, $table);
 }

@@ -27,7 +27,7 @@ class ModelFieldsCommandTest extends TestCase
     {
         // Mock db handler
         $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
-            $mock->shouldReceive('getColumns')->once();
+            $mock->shouldReceive('getColumns')->once()->andReturn([]);
         });
 
         $this->artisan('model:fields', [

@@ -3,9 +3,6 @@
 namespace Vkovic\LaravelCommandos\Handlers\Database;
 
 use PDO;
-use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\DbCreateException;
-use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\DbDropException;
-use Vkovic\LaravelCommandos\Handlers\Database\Exceptions\DbExistCheckException;
 
 class MySqlHandler extends AbstractDbHandler
 {
@@ -31,36 +28,24 @@ class MySqlHandler extends AbstractDbHandler
         $this->pdo = $this->getPdo($config['host'], $config['port'], $config['username'], $config['password']);
     }
 
-    public function databaseExists($database): bool
+    public function databaseExists($database)
     {
-        try {
-            $stmt = $this->pdo->query("SELECT schema_name FROM information_schema.schemata WHERE schema_name = '$database'");
-        } catch (\Exception $e) {
-            throw new DbExistCheckException($e->getMessage());
-        }
+        $stmt = $this->pdo->query("SELECT schema_name FROM information_schema.schemata WHERE schema_name = '$database'");
 
         return $stmt->fetch() !== false;
     }
 
-    public function createDatabase($database): void
+    public function createDatabase($database)
     {
-        try {
-            $stmt = $this->pdo->exec("CREATE DATABASE `$database`");
-        } catch (\Exception $e) {
-            throw new DbCreateException($e->getMessage());
-        }
+        $this->pdo->exec("CREATE DATABASE `$database`");
     }
 
-    public function dropDatabase($database): void
+    public function dropDatabase($database)
     {
-        try {
-            $stmt = $this->pdo->exec("DROP DATABASE `$database`");
-        } catch (\Exception $e) {
-            throw new DbDropException($e->getMessage());
-        }
+        $this->pdo->exec("DROP DATABASE `$database`");
     }
 
-    public function getColumns($database, $table): array
+    public function getColumns($database, $table)
     {
         $stmt = $this->pdo->query("SHOW COLUMNS FROM `$database`.`$table`");
 
@@ -86,11 +71,10 @@ class MySqlHandler extends AbstractDbHandler
      * @param $port
      * @param $username
      * @param $password
-     * @param $database
      *
      * @return PDO
      */
-    public function getPdo($host, $port, $username, $password): PDO
+    public function getPdo($host, $port, $username, $password)
     {
         if ($this->pdo === null) {
             $pdo = new PDO(sprintf('mysql:host=%s;port=%d;', $host, $port), $username, $password);
@@ -101,20 +85,4 @@ class MySqlHandler extends AbstractDbHandler
 
         return $this->pdo;
     }
-
-//    public function getPdo($host, $port, $username, $password, $database = null): PDO
-//    {
-//        if ($this->pdo === null) {
-//            $dsn = "mysql:host=$host;port=$port;" . $database ?: "dbname=$database;" . '';
-//
-//            dump($dsn);
-//
-//            $pdo = new PDO($dsn, $username, $password);
-//            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//
-//            $this->pdo = $pdo;
-//        }
-//
-//        return $this->pdo;
-//    }
 }
