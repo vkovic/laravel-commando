@@ -2,17 +2,16 @@
 
 namespace Vkovic\LaravelCommandos\Test;
 
-use Illuminate\Foundation\Application;
+use Dotenv\Dotenv;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Vkovic\LaravelCommandos\Providers\LaravelCommandosServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
     /**
-     * Trick to add migration only for testing,
-     * and not the one from package service provider
+     * Get package providers.
      *
-     * @param Application $app
+     * @param  \Illuminate\Foundation\Application $app
      *
      * @return array
      */
@@ -23,26 +22,9 @@ class TestCase extends OrchestraTestCase
         ];
     }
 
-    /**
-     * 1) Switch default db to new name
-     * 2) Run callback
-     * 4) Switch back to old name
-     *
-     * @param $tempDbName
-     * @param $callback
-     *
-     * @throws \Exception
-     */
-    protected function switchDefaultDb($tempDbName, $callback)
+    protected function getEnvironmentSetUp($app)
     {
-        // Switch default db to new name
-        $defaultDb = config()->get('database.connections.mysql.database');
-        config()->set('database.connections.mysql.database', $tempDbName);
-
-        // Run callback
-        $callback($defaultDb);
-
-        // Switch back to old name
-        config()->set('database.connections.mysql.database', $defaultDb);
+        // Mimic laravel default env functionality and load env vars from .env
+        (Dotenv::create(__DIR__ . '/../', '.env'))->load();
     }
 }
