@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Vkovic\LaravelCommando\Console\Commands\DbCreateCommand;
 use Vkovic\LaravelCommando\Console\Commands\DbDropCommand;
 use Vkovic\LaravelCommando\Console\Commands\DbDumpCommand;
-use Vkovic\LaravelCommando\Console\Commands\DbExistsCommand;
+use Vkovic\LaravelCommando\Console\Commands\DbExistCommand;
 use Vkovic\LaravelCommando\Console\Commands\DbImportDumpCommand;
 use Vkovic\LaravelCommando\Console\Commands\DbSummonCommand;
 use Vkovic\LaravelCommando\Console\Commands\ModelFieldsCommand;
@@ -45,7 +45,7 @@ class LaravelCommandoServiceProvider extends ServiceProvider
             DbCreateCommand::class,
             DbDropCommand::class,
             DbDumpCommand::class,
-            DbExistsCommand::class,
+            DbExistCommand::class,
             DbImportDumpCommand::class,
             DbSummonCommand::class,
 

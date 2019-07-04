@@ -15,14 +15,14 @@ class DbCreateCommand extends Command
      * @var string
      */
     protected $signature = 'db:create
-                                {database? : Db (name) to be created. If omitted, it`ll use default db name from env}';
+                                {database? : Database to create. If omitted, name from .env will be used.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create db defined in .env file or with custom name if argument passed';
+    protected $description = 'Create database';
 
     /**
      * Execute the console command.

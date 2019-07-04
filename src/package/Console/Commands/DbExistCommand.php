@@ -5,7 +5,7 @@ namespace Vkovic\LaravelCommando\Console\Commands;
 use Illuminate\Console\Command;
 use Vkovic\LaravelCommando\Handlers\Database\WithDbHandler;
 
-class DbExistsCommand extends Command
+class DbExistCommand extends Command
 {
     use WithDbHandler;
 
@@ -15,7 +15,7 @@ class DbExistsCommand extends Command
      * @var string
      */
     protected $signature = 'db:exist
-                                {database? : Db (name) to be checked for existence. If omitted, it`ll check for default db defined in env}';
+                                {database? : Database name to check. If omitted it`ll check for default db (defined in .env).}';
 
     /**
      * The console command description.

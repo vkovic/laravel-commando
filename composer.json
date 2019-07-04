@@ -1,9 +1,10 @@
 {
   "name": "vkovic/laravel-commando",
-  "description": "Collection of handy Laravel console commands that almost every project needs",
+  "description": "Collection of handy Laravel artisan commands that most projects needs",
   "keywords": [
     "laravel",
     "console",
+    "artisan",
     "commands"
   ],
   "license": "MIT",

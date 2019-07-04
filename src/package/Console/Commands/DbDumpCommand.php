@@ -17,21 +17,20 @@ class DbDumpCommand extends Command
      * @var string
      */
     protected $signature = 'db:dump
-                                {database? : Db (name) to be dump. If omitted, it`ll use default db name from env}
-                                {--dir= : Directory for dump creation. If omitted default filesystem dir will be used}';
+                                {database? : Database to dump. If omitted, name from .env will be used.}
+                                {--dir= : Directory for dump creation. If omitted default filesystem dir will be used.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Dump database to file';
+    protected $description = 'Dump database to `.sql` file';
 
     public function handle()
     {
         // TODO
-        // Implement arguments that user can pass to customize dump process.
-        // Also add easy gzip fn
+        // Implement arguments that user can pass to customize dump process (like gz) ...
 
         $database = $this->argument('database')
             ?: config('database.connections.' . config('database.default') . '.database');

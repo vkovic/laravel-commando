@@ -22,7 +22,7 @@ class ModelListCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Show all models, tables they use and relevant record counts';
+    protected $description = 'Show all models and some basic info.';
 
     public function handle()
     {

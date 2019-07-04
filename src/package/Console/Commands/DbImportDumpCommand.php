@@ -16,8 +16,8 @@ class DbImportDumpCommand extends Command
      * @var string
      */
     protected $signature = 'db:import-dump 
-                                {database? : Which database to use as import destination. Db from env will be used if none passed}
-                                {--dir= : Directory to scan for sql dumps. If omitted default filesystem dir will be used}
+                                {database? : Database to import dump to. If omitted, name from .env will be used.}
+                                {--dir= : Directory for dump lookup. If omitted default filesystem dir will be used.}
                            ';
 
     /**
@@ -25,7 +25,7 @@ class DbImportDumpCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Import dump to database (env default or passed one)';
+    protected $description = 'Import dump from `.sql` file';
 
     public function handle()
     {

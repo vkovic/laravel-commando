@@ -17,7 +17,7 @@ class ModelFieldsCommand extends Command
      * @var string
      */
     protected $signature = 'model:fields
-                                {model? : Model namespace, e.g. `"\App\User"`, `"App\Models\Post"`)}
+                                {model? : Model to show fields from (e.g. `"App\User"`). If omitted, list of all models will be shown to choose from.)}
                            ';
 
     /**

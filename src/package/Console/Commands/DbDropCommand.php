@@ -15,7 +15,7 @@ class DbDropCommand extends Command
      * @var string
      */
     protected $signature = 'db:drop
-                               {database? : Database (name) to be created. If passed env DB_DATABASE will be ignored} 
+                               {database? : Database to drop. If omitted, name from .env will be used.} 
                            ';
 
     /**

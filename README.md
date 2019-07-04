@@ -5,21 +5,19 @@
 [![Stable](https://poser.pugx.org/vkovic/laravel-commando/v/stable)](https://packagist.org/packages/vkovic/laravel-commando)
 [![License](https://poser.pugx.org/vkovic/laravel-commando/license)](https://packagist.org/packages/vkovic/laravel-commando)
 
-### Title
+### Collection of handy Laravel `artisan` commands that most projects needs
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus adipisci amet aperiam atque consequatur, debitis
-dignissimos distinctio dolorem ea eveniet expedita explicabo facilis fuga, hic in ipsam itaque, laboriosam laborum
-maiores nesciunt placeat quia repellat reprehenderit sed suscipit tenetur vel voluptate? Aliquam consectetur
-consequuntur ex hic laboriosam veritatis. Assumenda doloremque illo laboriosam laborum molestias recusandae sint tenetur
-vero? Accusantium aliquid at autem cum cumque, delectus dolorum enim eos et facilis harum hic iste itaque necessitatibus
-nihil, odit porro quas, recusandae saepe sint temporibus vel vero. Consectetur, consequuntur cum cumque deleniti
-dignissimos ea enim, magnam mollitia, nisi quam sit tempore veritatis.
+Handy `artisan` commands that may find place in most of the Laravel projects regardless of the project type.
+
+How often you wanted to perform some basic tasks like create or drop database, dump database or load from `.sql` dump, or to see which fields (and field types) are present in your models? Continue reading and I promise to easy this, and many more tasks to you :beers:
 
 ---
 
 ## Compatibility
 
-The package is compatible with Laravel versions `5.5`, `5.6`, `5.7` and `5.8`, and PHP versions 7.1, 7.2 and 7.3
+The package is compatible with Laravel versions `5.5`, `5.6`, `5.7` and `5.8`.
+
+> Because some commands rely on raw console commands (like `db:dump` which uses `mysqldump`), currently only MySql database and Linux environments are supported. Package is designed to easily support multiple OS-es and database types, and it should be easy implementation, so if anyone is interested to help, please feel free to contribute.
 
 ## Installation
 
@@ -29,37 +27,137 @@ Install the package via composer:
 composer require vkovic/laravel-commando
 ```
 
-## Usage
+## Available commands
 
-### Subtitle
+> Package is in early stage so there is limited number of commands. I'm planning to add more, so if you have some suggestion you can require feature via issues page (click on `Issues -> New issue -> Feature request`)
 
-Code example
+###### Database related
 
-```php
-// File: app/ExampleClass.php
+- [**db**:exist](#db-exist)
+- [**db**:create](#db-create)
+- [**db**:drop](#db-drop)
+- [**db**:dump](#db-dump)
+- [**db**:import-dump](#db-import-dump)
+- [**db**:summon](#db-summon)
 
-namespace App\CustomCasts;
+###### Model related
 
-use Vkovic\LaravelCustomCasts\CustomCastBase;
+- [**model**:list](#model-list)
+- [**model**:fields](#model-fields)
 
-class ExampleClass
-{
-    public function setAttribute($value)
-    {
-        return ucwords($value);
-    }
+---
 
-    public function castAttribute($value)
-    {
-        return $this->getTitle() . ' ' . $value;
-    }
+<a name="db-exist"/>
 
-    protected function getTitle()
-    {
-        return ['Mr.', 'Mrs.', 'Ms.', 'Miss'][rand(0, 3)];
-    }
-}
+## db:exist
+
+Check if database exists
+
+```bash
+php artisan db:exist <database>
 ```
+
+###### Arguments:
+- `database` <small>optional</small>: Database name to check. If omitted it'll check for default db (defined in `.env`).
+
+<a name="db-create"/>
+
+## db:create
+
+Create database
+
+```bash
+php artisan db:create <database>
+```
+
+Arguments:
+- `database` <small>optional</small>: Database to create. If omitted, name from `.env` will be used.
+
+<a name="db-drop"/>
+
+## db:drop
+
+Drop database
+
+```bash
+php artisan db:drop <database>
+```
+
+Arguments:
+- `database` <small>optional</small>: Database to drop. If omitted, name from `.env` will be used
+
+<a name="db-dump"/>
+
+## db:dump
+
+Dump database to `.sql` file
+
+```bash
+php artisan db:dump <database> <--dir>
+```
+
+Arguments:
+- `database` <small>optional</small>: Database to dump. If omitted, name from `.env` will be used.
+
+Options:
+- `--dir`: Directory for dump creation. If omitted default filesystem dir will be used.
+
+<a name="db-import-dump"/>
+
+## db:import-dump
+
+Import dump from `.sql` file
+
+```bash
+php artisan db:import-dump <database> <--dir>
+```
+
+Arguments:
+- `database` <small>optional</small>: Database to import dump to. If omitted, name from `.env` will be used.
+
+Options:
+- `--dir`: Directory for dump lookup. If omitted default filesystem dir will be used.
+
+<a name="db-summon"/>
+
+## db:summon
+
+Drop default database, than perform migrate followed with the seed.
+
+Useful in early stages of development when we changing models (migrations and seeds) a lot.
+
+```bash
+php artisan db:summon
+```
+
+---
+
+<a name="model-list"/>
+
+## model:list
+
+Show all models and some basic info.
+
+*(model class, table name, table count, scope count, soft deleted count)*
+
+```bash
+php artisan model:list
+```
+
+<a name="model-list"/>
+
+## model:fields
+
+Show model fields info.
+
+*(field name, field type, default value, nullable, casts, and guarded / fillable)*
+
+```bash
+php artisan model:fields <model>
+```
+
+Arguments:
+- `model` <small>optional</small>: Model to show fields from (e.g. `"App\User"`). If omitted, list of all models will be shown to choose from.
 
 ---
 
