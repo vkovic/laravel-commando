@@ -64,28 +64,28 @@ php artisan model:list
 ```bash
 ~$ php artisan model:list
 
-+------------------------------------------+---------------------------+-------------+-------------+--------------+
-| Model                                    | Table                     | Table count | Scope count | Soft deleted |
-+------------------------------------------+---------------------------+-------------+-------------+--------------+
-| App\Models\Admin\Admin                   | admins                    | 3           | 3           |              |
-| App\Models\Admin\Attribute               | attributes                | 148         | 148         |              |
-| App\Models\Admin\Brand                   | brands                    | 152         | 152         |              |
-| App\Models\Admin\Category                | categories                | 70          | 70          |              |
-|                                          |                           |             |             |              |
-| App\Models\Admin\Newsletter              | newsletter                | 452         | 452         |              |
-| App\Models\Admin\Product                 | products                  | 4485        | 4485        | 0            |
-| App\Models\Admin\RedirectRule            | redirect_rules            | 2632        | 2632        |              |
-| App\Models\Admin\Slide                   | slides                    | 2           | 2           |              |
-| App\Models\Admin\User                    | users                     | 2644        | 2644        |              |
-| App\Models\Admin\Warranty                | warranties                | 9           | 9           |              |
-|                                          |                           |             |             |              |
-| App\Models\Attribute                     | attributes                | 148         | 148         |              |
-| App\Models\Brand                         | brands                    | 152         | 152         |              |
-| App\Models\Category                      | categories                | 70          | 70          |              |
-| App\Models\Product                       | products                  | 4485        | 3079        | 0            |
-| App\Models\User                          | users                     | 2644        | 2644        |              |
-| App\Models\Warranty                      | warranties                | 9           | 9           |              |
-+------------------------------------------+---------------------------+-------------+-------------+--------------+
++----------------------------------+-------------------+-------------+-------------+--------------+
+| Model                            | Table             | Table count | Scope count | Soft deleted |
++----------------------------------+-------------------+-------------+-------------+--------------+
+| App\Models\Admin\Admin           | admins            | 3           | 3           |              |
+| App\Models\Admin\Attribute       | attributes        | 148         | 148         |              |
+| App\Models\Admin\Brand           | brands            | 152         | 152         |              |
+| App\Models\Admin\Category        | categories        | 70          | 70          |              |
+|                                  |                   |             |             |              |
+| App\Models\Admin\Newsletter      | newsletter        | 452         | 452         |              |
+| App\Models\Admin\Product         | products          | 4485        | 4485        | 0            |
+| App\Models\Admin\RedirectRule    | redirect_rules    | 2632        | 2632        |              |
+| App\Models\Admin\Slide           | slides            | 2           | 2           |              |
+| App\Models\Admin\User            | users             | 2644        | 2644        |              |
+| App\Models\Admin\Warranty        | warranties        | 9           | 9           |              |
+|                                  |                   |             |             |              |
+| App\Models\Attribute             | attributes        | 148         | 148         |              |
+| App\Models\Brand                 | brands            | 152         | 152         |              |
+| App\Models\Category              | categories        | 70          | 70          |              |
+| App\Models\Product               | products          | 4485        | 3079        | 0            |
+| App\Models\User                  | users             | 2644        | 2644        |              |
+| App\Models\Warranty              | warranties        | 9           | 9           |              |
++----------------------------------+-------------------+-------------+-------------+--------------+
 ```
 
 <a name="model-list"/>
