@@ -101,7 +101,7 @@ php artisan db:exist <database>
 
 #### Usage example
 
-![php artisan db exists command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_db_exist_list.png)
+![php artisan db exists command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_db_exist.png)
 
 <a name="db-create"/>
 
