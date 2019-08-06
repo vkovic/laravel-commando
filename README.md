@@ -61,7 +61,7 @@ php artisan model:list
 
 #### Usage example
 
-![php artisan model list command from laravel-commando package](https://github.com/vkovic/laravel-commando/docs/images/php_artisan_model_list.png)
+![php artisan model list command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_model_list.png)
 
 <a name="model-list"/>
 
@@ -84,7 +84,7 @@ Arguments:
 
 #### Usage example
 
-![php artisan model list command from laravel-commando package](https://github.com/vkovic/laravel-commando/docs/images/php_artisan_model_list.png)
+![php artisan model list command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_model_list.png)
 
 <a name="db-exist"/>
 
@@ -101,7 +101,7 @@ php artisan db:exist <database>
 
 #### Usage example
 
-![php artisan model list command from laravel-commando package](https://github.com/vkovic/laravel-commando/docs/images/php_artisan_model_list.png)
+![php artisan model list command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_model_list.png)
 
 <a name="db-create"/>
 
@@ -118,7 +118,7 @@ Arguments:
 
 #### Usage example
 
-![php artisan model list command from laravel-commando package](https://github.com/vkovic/laravel-commando/docs/images/php_artisan_model_list.png)
+![php artisan model list command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_model_list.png)
 
 <a name="db-drop"/>
 
@@ -135,7 +135,7 @@ Arguments:
 
 #### Usage example
 
-![php artisan model list command from laravel-commando package](https://github.com/vkovic/laravel-commando/docs/images/php_artisan_model_list.png)
+![php artisan model list command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_model_list.png)
 
 <a name="db-dump"/>
 
@@ -182,7 +182,7 @@ Options:
 
 #### Usage example
 
-![php artisan model list command from laravel-commando package](https://github.com/vkovic/laravel-commando/docs/images/php_artisan_model_list.png)
+![php artisan model list command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_model_list.png)
 
 <a name="db-summon"/>
 
