@@ -84,7 +84,7 @@ Arguments:
 
 #### Usage example
 
-![php artisan model list command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_model_list.png)
+![php artisan model fields command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_model_fields.png)
 
 <a name="db-exist"/>
 
@@ -118,7 +118,7 @@ Arguments:
 
 #### Usage example
 
-![php artisan model list command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_model_list.png)
+![php artisan db create command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_db_create.png)
 
 <a name="db-drop"/>
 
@@ -135,7 +135,7 @@ Arguments:
 
 #### Usage example
 
-![php artisan model list command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_model_list.png)
+![php artisan db drop command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_db_drop.png)
 
 <a name="db-dump"/>
 
@@ -155,14 +155,7 @@ Options:
 
 #### Usage example
 
-```bash
-~$ php artisan db:dump
-
- [OK] Database `laravel_commando` dumped successfully
-
- Destination: `/var/www/html/storage/app/laravel_commando-2019-08-03-22-16-03.sql`
-
-```
+![php artisan db dump command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_db_dump.png)
 
 <a name="db-import-dump"/>
 
@@ -182,7 +175,7 @@ Options:
 
 #### Usage example
 
-![php artisan model list command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_model_list.png)
+![php artisan db import dump command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_db_import_dump.png)
 
 <a name="db-summon"/>
 
@@ -195,6 +188,10 @@ Useful in early stages of development when we changing models (migrations and se
 ```bash
 php artisan db:summon
 ```
+
+#### Usage example
+
+![php artisan db summon command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_db_summon.png)
 
 ---
 
