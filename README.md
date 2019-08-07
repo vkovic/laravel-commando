@@ -53,7 +53,11 @@ composer require vkovic/laravel-commando
 
 Show all models and some basic info.
 
-*(model class, table name, table count, scope count, soft deleted count)*
+- Model (model class)
+- Table (table used by the model)
+- Table count (count of all records in the model related table)
+- Scope count (count of records with all scopes applied: `$n = SomeModel::count()`
+- Soft deleted (show how many soft deleted items model have)
 
 ```bash
 php artisan model:list
@@ -69,11 +73,13 @@ php artisan model:list
 
 Show model fields info.
 
-- Model (model class)
-- Table (table used by the model)
-- Table count (count of all records in the table)
-- Scope count (count of records with all scopes applied(Model::count())
-- Soft deleted (show how many soft deleted items model have)
+- Field (model field / table column)
+- Type (db field type)
+- Nullable (db value can be null)
+- Default (default db value)
+- Casts (attribute muttators)
+- Guarded (field is not [mass assignable](https://laravel.com/docs/5.8/eloquent#mass-assignment))
+- Fillable (field is mass assignable)
 
 ```bash
 php artisan model:fields <model>
