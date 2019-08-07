@@ -33,23 +33,23 @@ composer require vkovic/laravel-commando
 
 ###### Model related
 
-- [**model**:list](#model-list)
-- [**model**:fields](#model-fields)
+- [**model**:list](#model-list) ~ List all application `Models` and related info
+- [**model**:fields](#model-fields) ~ Show single `Model` and useful info
 
 ###### Database related
 
-- [**db**:exist](#db-exist)
-- [**db**:create](#db-create)
-- [**db**:drop](#db-drop)
-- [**db**:dump](#db-dump)
-- [**db**:import-dump](#db-import-dump)
-- [**db**:summon](#db-summon)
+- [**db**:exist](#db-exist) ~ Check for database existance
+- [**db**:create](#db-create) ~ Create database
+- [**db**:drop](#db-drop) ~ Easily drop default or another db
+- [**db**:dump](#db-dump) ~ Dump database to `.sql` file
+- [**db**:import-dump](#db-import-dump) ~ Import db from exported `.sql`
+- [**db**:summon](#db-summon) ~ create/drop | migrate | seed
 
 ---
 
 <a name="model-list"/>
 
-## model:list
+## `php artisan model:list`
 
 Show all models and some basic info.
 
@@ -59,17 +59,13 @@ Show all models and some basic info.
 - Scope count (count of records with all scopes applied: `$n = SomeModel::count()`
 - Soft deleted (show how many soft deleted items model have)
 
-```bash
-php artisan model:list
-```
-
 #### Usage example
 
 ![php artisan model list command from laravel-commando package](https://raw.githubusercontent.com/vkovic/laravel-commando/master/docs/images/php_artisan_model_list.png)
 
 <a name="model-fields"/>
 
-## model:fields
+## `php artisan model:fields <model>`
 
 Show model fields info.
 
@@ -81,10 +77,6 @@ Show model fields info.
 - Guarded (field is not [mass assignable](https://laravel.com/docs/5.8/eloquent#mass-assignment))
 - Fillable (field is mass assignable)
 
-```bash
-php artisan model:fields <model>
-```
-
 Arguments:
 - `model` <small>optional</small>: Model to show fields from (e.g. `"App\User"`). If omitted, list of all models will be shown to choose from.
 
@@ -94,13 +86,9 @@ Arguments:
 
 <a name="db-exist"/>
 
-## db:exist
+## `php artisan db:exist <database>`
 
 Check if database exists
-
-```bash
-php artisan db:exist <database>
-```
 
 ###### Arguments:
 - `database` <small>optional</small>: Database name to check. If omitted it'll check for default db (defined in `.env`).
@@ -111,13 +99,9 @@ php artisan db:exist <database>
 
 <a name="db-create"/>
 
-## db:create
+## `php artisan db:create <database>`
 
 Create database
-
-```bash
-php artisan db:create <database>
-```
 
 Arguments:
 - `database` <small>optional</small>: Database to create. If omitted, name from `.env` will be used.
@@ -128,13 +112,9 @@ Arguments:
 
 <a name="db-drop"/>
 
-## db:drop
+## `php artisan db:drop <database>`
 
 Drop database
-
-```bash
-php artisan db:drop <database>
-```
 
 Arguments:
 - `database` <small>optional</small>: Database to drop. If omitted, name from `.env` will be used
@@ -145,13 +125,9 @@ Arguments:
 
 <a name="db-dump"/>
 
-## db:dump
+## `php artisan db:dump <database> <--dir>`
 
 Dump database to `.sql` file
-
-```bash
-php artisan db:dump <database> <--dir>
-```
 
 Arguments:
 - `database` <small>optional</small>: Database to dump. If omitted, name from `.env` will be used.
@@ -165,13 +141,9 @@ Options:
 
 <a name="db-import-dump"/>
 
-## db:import-dump
+## `php artisan db:import-dump <database> <--dir>`
 
 Import dump from `.sql` file
-
-```bash
-php artisan db:import-dump <database> <--dir>
-```
 
 Arguments:
 - `database` <small>optional</small>: Database to import dump to. If omitted, name from `.env` will be used.
@@ -185,15 +157,11 @@ Options:
 
 <a name="db-summon"/>
 
-## db:summon
+## `php artisan db:summon`
 
 Drop default database, than perform migrate followed with the seed.
 
 Useful in early stages of development when we changing models (migrations and seeds) a lot.
-
-```bash
-php artisan db:summon
-```
 
 #### Usage example
 
