@@ -42,7 +42,7 @@
   "extra": {
       "laravel": {
           "providers": [
-              "Vkovic\\LaravelCommando\\Providers\\LaravelCommandoServiceProvider"
+              "Vkovic\\LaravelCommando\\Providers\\CommandoServiceProvider"
           ]
       }
   },
