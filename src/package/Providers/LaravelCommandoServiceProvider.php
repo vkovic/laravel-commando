@@ -11,6 +11,7 @@ use Vkovic\LaravelCommando\Console\Commands\DbImportDumpCommand;
 use Vkovic\LaravelCommando\Console\Commands\DbSummonCommand;
 use Vkovic\LaravelCommando\Console\Commands\ModelFieldsCommand;
 use Vkovic\LaravelCommando\Console\Commands\ModelListCommand;
+use function Vkovic\LaravelCommando\src_path;
 
 class LaravelCommandoServiceProvider extends ServiceProvider
 {
