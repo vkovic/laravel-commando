@@ -11,9 +11,9 @@ use Vkovic\LaravelCommando\Console\Commands\DbImportDumpCommand;
 use Vkovic\LaravelCommando\Console\Commands\DbSummonCommand;
 use Vkovic\LaravelCommando\Console\Commands\ModelFieldsCommand;
 use Vkovic\LaravelCommando\Console\Commands\ModelListCommand;
-use function Vkovic\LaravelCommando\src_path;
+use function Vkovic\LaravelCommando\package_path;
 
-class LaravelCommandoServiceProvider extends ServiceProvider
+class CommandoServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -23,13 +23,13 @@ class LaravelCommandoServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            src_path('config') => config_path()
+            package_path('config') => config_path()
         ]);
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(src_path('config/laravel-commando.php'), 'laravel-commando');
+        $this->mergeConfigFrom(package_path('config/laravel-commando.php'), 'laravel-commando');
 
         $this->registerProviders();
 
