@@ -1,5 +1,5 @@
 # Native image
-FROM php:7.2-cli
+FROM php:7.2-cli-stretch
 
 # Install MySQL client
 RUN apt-get update && apt-get install mysql-client -y

@@ -37,7 +37,12 @@ class MySqlHandler extends AbstractDbHandler
 
     public function createDatabase($database)
     {
-        $this->pdo->exec("CREATE DATABASE `$database`");
+        $this->pdo->exec(sprintf(
+            'CREATE DATABASE `%s` CHARACTER SET %s COLLATE %s;',
+            $database,
+            $this->config['charset'],
+            $this->config['collation']
+        ));
     }
 
     public function dropDatabase($database)
