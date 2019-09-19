@@ -15,7 +15,7 @@ How often you wanted to perform some basic tasks like create or drop database, d
 
 ## Compatibility
 
-The package is compatible with Laravel versions `5.5`, `5.6`, `5.7` and `5.8`.
+The package is compatible with Laravel versions `5.5`, `5.6`, `5.7`, `5.8` and `6`.
 
 > Because some commands rely on raw console commands (like `db:dump` which uses `mysqldump`), currently only MySql database and Linux environments are supported. Package is designed to easily support multiple OS-es and database types, and it should be easy implementation, so if anyone is interested to help, please feel free to contribute.
 
