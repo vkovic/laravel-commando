@@ -6,7 +6,7 @@ use Mockery\MockInterface;
 use Vkovic\LaravelCommando\Handlers\Database\AbstractDbHandler;
 use Vkovic\LaravelCommando\Test\TestCase;
 
-class DbExistsCommandTest extends TestCase
+class DbExistCommandTest extends TestCase
 {
     /**
      * @test

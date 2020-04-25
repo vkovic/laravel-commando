@@ -4,12 +4,12 @@ namespace Vkovic\LaravelCommando\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
-use Vkovic\LaravelCommando\Handlers\Database\WithdbHandler;
+use Vkovic\LaravelCommando\Handlers\Database\WithDbHandler;
 use Vkovic\LaravelCommando\Handlers\WithHelper;
 
 class ModelFieldsCommand extends Command
 {
-    use WithHelper, WithdbHandler;
+    use WithHelper, WithDbHandler;
 
     /**
      * The name and signature of the console command.
@@ -29,29 +29,62 @@ class ModelFieldsCommand extends Command
 
     public function handle()
     {
-        $database = config('database.connections.' . config('database.default') . '.database');
+        try {
+            $modelClass = $this->getModelClass();
+        } catch (\Exception $e) {
+            $this->output->warning($e->getMessage());
 
-        // Take model from passed argument
-        // or list all models within the app
-        if (($modelClass = $this->argument('model')) === null) {
+            return 1;
+        }
+
+        $tableFields = ['Field', 'Type', 'Nullable', 'Default', 'Casts', 'Guarded', 'Fillable'];
+        $tableData = $this->tableData($modelClass);
+
+        $this->output->text("Model: `$modelClass`");
+        $this->table($tableFields, $tableData);
+        $this->output->newLine();
+    }
+
+    /**
+     * Get model class from passed argument or from list all model
+     * FQNs within the app root directory (recursively)
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function getModelClass()
+    {
+        $modelClass = $this->argument('model');
+
+        if ($modelClass === null) {
             $allModels = $this->helper()->getAllModelClasses();
             $modelClass = $this->choice('Choose model to show the fields from:', $allModels);
         }
 
         if (!class_exists($modelClass)) {
-            $this->output->warning("Model `$modelClass` doesn`t exist");
-
-            return 1;
+            throw new \Exception("Model '$modelClass' doesn`t exist");
         }
 
-        $modelClass = ltrim($modelClass, '\\');
+        return ltrim($modelClass, '\\');
+    }
 
+    /**
+     * Create table data from given model class
+     *
+     * @param $modelClass
+     *
+     * @return array
+     */
+    protected function tableData($modelClass)
+    {
         /** @var Model $model */
         $model = new $modelClass;
         $casts = $model->getCasts();
         $fillable = $model->getFillable();
         $guarded = $model->getGuarded();
 
+        $database = config('database.connections.' . config('database.default') . '.database');
         // Array with: name, position, type, nullable, default_value
         $columns = $this->dbHandler()->getColumns($database, $model->getTable());
 
@@ -68,8 +101,6 @@ class ModelFieldsCommand extends Command
             ];
         }
 
-        $this->output->text("Model: `$modelClass`");
-        $this->table(['Field', 'Type', 'Nullable', 'Default', 'Casts', 'Guarded', 'Fillable'], $data);
-        $this->output->newLine();
+        return $data;
     }
 }

@@ -26,11 +26,17 @@ class ModelListCommand extends Command
 
     public function handle()
     {
-        $allModels = $this->helper()->getAllModelClasses();
+        try {
+            $allModels = $this->helper()->getAllModelClasses();
+        } catch (\Exception $e) {
+            $this->output->warning($e->getMessage());
+
+            return 1;
+        }
 
         $rows = [];
         $previousNamespace = '';
-        foreach ($allModels as $i => $modelClass) {
+        foreach ($allModels as $modelClass) {
             $modelClass = ltrim($modelClass, '\\');
 
             $namespace = explode('\\', $modelClass);

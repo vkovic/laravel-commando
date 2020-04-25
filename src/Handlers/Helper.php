@@ -8,6 +8,26 @@ use Illuminate\Support\Facades\File;
 
 class Helper
 {
+    /**
+     * Get app namespace
+     *
+     * @return string
+     */
+    public function getAppNamespace()
+    {
+        return \Illuminate\Container\Container::getInstance()->getNamespace();
+    }
+
+    /**
+     * Get application path
+     *
+     * @return string
+     */
+    public function getAppPath()
+    {
+        return app_path();
+    }
+
     public function artisanCall($command, array $parameters = [], $outputBuffer = null)
     {
         return Artisan::call($command, $parameters, $outputBuffer);
@@ -18,12 +38,12 @@ class Helper
      *
      * @return array
      *
-     * @throws \ReflectionException
+     * @throws \Exception
      */
     public function getAllModelClasses()
     {
-        $appNamespace = \Illuminate\Container\Container::getInstance()->getNamespace();
-        $appPath = app_path();
+        $appNamespace = $this->getAppNamespace();
+        $appPath = $this->getAppPath();
 
         $allFiles = File::allFiles($appPath);
 
@@ -39,8 +59,19 @@ class Helper
             $pathWithoutAppPath = ltrim($pathWithoutExtension, $appPath);
             $class = $appNamespace . str_replace('/', '\\', $pathWithoutAppPath);
 
-            if ($this->isAbstractClass($class) || $this->isInterface($class)) {
-                continue;
+            // If some of the classes is not in correct namespace
+            // or has wrong name or file path (PSR-4 compatibility)
+            // ReflectionException: Class X\Y\Class does not exist will be thrown
+            try {
+                if ($this->isAbstractClass($class) || $this->isInterface($class)) {
+                    continue;
+                }
+            } catch (\Exception $e) {
+                $message = $e->getMessage();
+                $message .= ' or not PSR-4 compatible.' . PHP_EOL;
+                $message .= 'Check class name, namespace and class file location.';
+
+                throw new \Exception($message);
             }
 
             if (is_subclass_of($class, Model::class)) {
