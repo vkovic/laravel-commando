@@ -9,6 +9,12 @@ services:
       - db
     volumes:
       - ./:/var/www/html/
+    command:
+      - /bin/bash
+      - -c
+      - |
+        [ -d vendor/bin ] || composer install
+        tail -f /dev/null
 
   db:
     image: mysql:5.7
@@ -17,9 +23,3 @@ services:
       MYSQL_DATABASE: laravel_commando
     ports:
       - ${DOCKER_MYSQL_PORT}:3306
-
-  composer:
-    image: composer:1.8
-    volumes:
-      - .:/app
-    command: install --ignore-platform-reqs
