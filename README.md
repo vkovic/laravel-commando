@@ -23,12 +23,12 @@ The package is compatible with Laravel versions `5.5`, `5.6`, `5.7`, `5.8`, `6.x
 
 Install the package via composer:
 
-If your're using Laravel prior version 8, run: 
+If your're using Laravel 8, run: 
 ```bash
 composer require vkovic/laravel-commando
 ```
 
-If your're using Laravel 8, run: 
+If your're using Laravel prior version 8, run: 
 ```bash
 composer require vkovic/laravel-commando "^0.1"
 ```
