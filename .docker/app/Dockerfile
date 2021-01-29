@@ -1,4 +1,4 @@
-FROM php:7.2-cli-stretch
+FROM php:7.3-cli-stretch
 
 #
 # Packages
@@ -31,11 +31,13 @@ ENV COMPOSER_NO_INTERACTION=1
 ENV COMPOSER_MEMORY_LIMIT=-1
 
 RUN curl -sS https://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/composer \
-    && composer global require hirak/prestissimo --no-plugins --no-scripts
+    && mv composer.phar /usr/local/bin/composer
 
 # Set default workdir
 WORKDIR /var/www/html
 
-# Keep spinning
-CMD ["tail", "-f", "/dev/null"]
+#
+# Path
+#
+
+ENV PATH="/var/www/html/vendor/bin:${PATH}"

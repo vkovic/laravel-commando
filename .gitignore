@@ -1,7 +1,4 @@
-#
 # OS generated files and junk
-#
-
 .DS_Store
 .DS_Store?
 ._*
@@ -10,17 +7,14 @@ Icon?
 .Trashes
 ehthumbs.db
 *.log
+*.log*
+*.swp
 *.cache
 
-#
-# PhpStorm
-#
-
+# Idea IDEs
 .idea
 
-#
 # Project
-#
-
 vendor
 composer.lock
+*.env

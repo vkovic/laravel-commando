@@ -15,7 +15,7 @@ How often you wanted to perform some basic tasks like create or drop database, d
 
 ## Compatibility
 
-The package is compatible with Laravel versions `5.5`, `5.6`, `5.7`, `5.8`, `6.x` and `7.x`.
+The package is compatible with Laravel versions `5.5`, `5.6`, `5.7`, `5.8`, `6.x`, `7.x` and `8.x`.
 
 > Because some commands rely on raw console commands (like `db:dump` which uses `mysqldump`), currently only MySql database and Linux environments are supported. Package is designed to easily support multiple OS-es and database types, and it should be easy implementation, so if anyone is interested to help, please feel free to contribute.
 
@@ -23,8 +23,14 @@ The package is compatible with Laravel versions `5.5`, `5.6`, `5.7`, `5.8`, `6.x
 
 Install the package via composer:
 
+If your're using Laravel prior version 8, run: 
 ```bash
 composer require vkovic/laravel-commando
+```
+
+If your're using Laravel 8, run: 
+```bash
+composer require vkovic/laravel-commando "^0.1"
 ```
 
 ## Available commands
@@ -174,14 +180,14 @@ Useful in early stages of development when we changing models (migrations and se
 If you plan to modify this Laravel package you should run tests that comes with it.
 Easiest way to accomplish this would be with `Docker`, `docker-compose` and `phpunit`.
 
-First, we need to initialize Docker containers:
+First, we need to initialize Docker containers (see `docker-composer.yaml` for details).
 
 ```bash
-docker-compose up -d
+docker-compose up --exit-code-from app
 ```
 
 After that, we can run tests and watch the output:
 
 ```bash
-docker-compose exec app vendor/bin/phpunit
+docker-compose run --rm app phpunit
 ```

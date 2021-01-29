@@ -28,13 +28,13 @@
     }
   },
   "require": {
-    "php": "^7.1"
+     "php": "^7.3|^8.0"
   },
   "require-dev": {
-    "laravel/framework": "^5.5|6.*|7.*",
-    "orchestra/testbench": "^3.5|4.*|5.*",
-    "orchestra/database": "^3.5|4.*|5.*",
-    "phpunit/phpunit": "^6.3|7.*|8.*"
+    "laravel/framework": "8.*",
+    "orchestra/testbench": "6.*",
+    "orchestra/database": "6.*",
+    "phpunit/phpunit": "^9.3.3"
   },
   "scripts": {
     "test": "vendor/bin/phpunit"

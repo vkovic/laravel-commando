@@ -14,7 +14,7 @@ services:
       - -c
       - |
         [ -d vendor/bin ] || composer install
-        tail -f /dev/null
+        [ -f .env ] || cp .env.example .env
 
   db:
     image: mysql:5.7
