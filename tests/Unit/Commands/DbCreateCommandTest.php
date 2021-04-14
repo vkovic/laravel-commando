@@ -24,6 +24,19 @@ class DbCreateCommandTest extends TestCase
     /**
      * @test
      */
+    public function it_returns_0_when_allowing_db_to_exist()
+    {
+        $this->mock(AbstractDbHandler::class, function (MockInterface $mock) {
+            $mock->shouldReceive('databaseExists')->once()->andReturn(true);
+        });
+
+        $this->artisan('db:create', ['--allow-existing' => true])
+            ->assertExitCode(0);
+    }
+
+    /**
+     * @test
+     */
     public function it_returns_0_when_db_created()
     {
         $database = 'non_existent_db';
