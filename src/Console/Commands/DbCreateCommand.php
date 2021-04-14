@@ -15,7 +15,8 @@ class DbCreateCommand extends Command
      * @var string
      */
     protected $signature = 'db:create
-                                {database? : Database to create. If omitted, name from .env will be used.}';
+                                {database? : Database to create. If omitted, name from .env will be used.}
+                                {--allow-existing : Exit successfully even if the database already exists.}';
 
     /**
      * The console command description.
@@ -35,6 +36,12 @@ class DbCreateCommand extends Command
             ?: config('database.connections.' . config('database.default') . '.database');
 
         if ($this->dbHandler()->databaseExists($database)) {
+            if ($this->option('allow-existing')) {
+                $this->output->info("Database `$database` exists");
+
+                return 0;
+            }
+
             $this->output->warning("Database `$database` exists");
 
             return 1;
