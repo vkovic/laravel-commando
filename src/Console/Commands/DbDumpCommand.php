@@ -55,7 +55,9 @@ class DbDumpCommand extends Command
         // Avoid database prefix being written into dump file
         $removeDbPrefix = "| sed -e 's/`$database`.`/`/g'";
 
-        $command = "mysqldump -h $host -u$user -p$password $database $removeDefiner $removeDbPrefix > $destination";
+        // `--no-tablespaces` option included by default from now on
+        // @see https://dba.stackexchange.com/questions/271981/access-denied-you-need-at-least-one-of-the-process-privileges-for-this-ope
+        $command = "mysqldump --no-tablespaces -h $host -u$user -p$password $database $removeDefiner $removeDbPrefix > $destination";
 
         $this->consoleHandler()->executeCommand($command);
 
